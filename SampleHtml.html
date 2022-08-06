@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!-- saved from url=(0058)https://www.beans.ai/mapswidget/example-google-inline.html -->
+<html lang="en">
+  <head>
+    <style>
+      .gm-control-active > img {
+        box-sizing: content-box;
+        display: none;
+        left: 50%;
+        pointer-events: none;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .gm-control-active > img:nth-child(1) {
+        display: block;
+      }
+      .gm-control-active:focus > img:nth-child(1),
+      .gm-control-active:hover > img:nth-child(1),
+      .gm-control-active:active > img:nth-child(1),
+      .gm-control-active:disabled > img:nth-child(1) {
+        display: none;
+      }
+      .gm-control-active:focus > img:nth-child(2),
+      .gm-control-active:hover > img:nth-child(2) {
+        display: block;
+      }
+      .gm-control-active:active > img:nth-child(3) {
+        display: block;
+      }
+      .gm-control-active:disabled > img:nth-child(4) {
+        display: block;
+      }
+      .gm-ui-hover-effect {
+        opacity: 0.6;
+      }
+      .gm-ui-hover-effect:hover {
+        opacity: 1;
+      }
+      .gm-ui-hover-effect > span {
+        background-color: #000;
+      }
+      @media (forced-colors: active), (prefers-contrast: more) {
+        .gm-ui-hover-effect > span {
+          background-color: ButtonText;
+        }
+      }
+      @media print {
+        .gm-style .gmnoprint,
+        .gmnoprint {
+          display: none;
+        }
+      }
+      @media screen {
+        .gm-style .gmnoscreen,
+        .gmnoscreen {
+          display: none;
+        }
+      }
+      .gm-style-moc {
+        background-color: rgba(0, 0, 0, 0.45);
+        pointer-events: none;
+        text-align: center;
+        transition: opacity ease-in-out;
+      }
+      .gm-style-mot {
+        color: white;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 22px;
+        margin: 0;
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+      }
+      .gm-style img {
+        max-width: none;
+      }
+      .gm-style {
+        font: 400 11px Roboto, Arial, sans-serif;
+        text-decoration: none;
+      }
+    </style>
+    <link
+      href="./mapswidget-1.0.3.css"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body style="padding: 0; margin: 0">
+    <div
+      id="body-inner-1"
+      style="
+        margin-left: 12.5vw;
+        margin-top: 10vh;
+        width: 50vw;
+        height: 60vh;
+        display: inline-block;
+        vertical-align: middle;
+      "
+      class="beans-container"
+    >
+      <div
+        class="BeansGoogle"
+        id="BeansGoogle-2f3q6kwnmufgubpna78pwq"
+        style="
+          width: 683px;
+          height: 381px;
+          position: relative;
+          overflow: hidden;
+        "
+      >
+                <div class="gmnoscreen">
+                  <div
+                    style="
+                      font-family: Roboto, Arial, sans-serif;
+                      font-size: 11px;
+                      color: rgb(0, 0, 0);
+                      direction: ltr;
+                      text-align: right;
+                      background-color: rgb(245, 245, 245);
+                    "
+                  >
+                    Map data ©2022 Google Imagery ©2022 , Landsat / Copernicus,
+                    Maxar Technologies, U.S. Geological Survey, USDA/FPAC/GEO
+                  </div>
+                </div>
+               
+
+
+      </div>
+               
+
+      <div
+                    style="
+                      position: relative;
+                      padding-right: 6px;
+                      padding-left: 6px;
+                      box-sizing: border-box;
+                      font-family: Roboto, Arial, sans-serif;
+                      font-size: 10px;
+                      color: rgb(0, 0, 0);
+                      white-space: nowrap;
+                      direction: ltr;
+                      text-align: right;
+                      vertical-align: middle;
+                      display: inline-block;
+                    "
+                  >
+                    <a
+                      href="https://www.google.com/intl/en-GB_US/help/terms_maps.html"
+                      target="_blank"
+                      rel="noopener"
+                      style="
+                        text-decoration: none;
+                        cursor: pointer;
+                        color: rgb(0, 0, 0);
+                      "
+                      >Terms of Use</a
+                    >
+      </div>
+    </div>
+
+    <script type="text/javascript" src="./mapswidget-1.0.3.js.download"></script>
+    <script async="" defer="" src="./js"></script>
+    <script type="text/javascript">
+      var callbackOnUserSelect = function (callbackValues) {
+        callbackValues.propertyId;
+        callbackValues.parkingSpotId;
+      };
+
+      var callbackOnUserCancel = function (callbackValues) {
+        callbackValues.propertyId;
+        callbackValues.parkingSpotId;
+      };
+
+      function initMap() {
+        var addr = '5250 E Cherry Creek South Dr, Denver, CO';
+        var unitnum = 'Q16';
+        var movein = '2022-08-23';
+        var be1 = new BeansMap();
+        be1.render(
+          "body-inner-1",
+          "9a369f6337674c9:3037343435663562656537373439386361383434",
+          [
+            {
+              address: addr,
+              unit: unitnum,
+            },
+          ],
+          {
+            userLocation: "LIVE",
+            hideNavigateButton: true,
+          },
+          {
+            initialMap: "STREET",
+            //showBuildingShape: true,
+            showUnitShape: true,
+            initialPosition: {
+              address: addr,
+            },
+          },
+          {
+            aircom: {
+              propertyId: "",
+              moveInDate: movein,
+              colorConfig: {},
+              onSelect: callbackOnUserSelect,
+              onCancel: callbackOnUserCancel,
+            },
+          }
+        );
+      }
+    </script>
+  </body>
+</html>

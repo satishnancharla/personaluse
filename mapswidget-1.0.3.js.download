@@ -1,0 +1,4614 @@
+var serverUrl = "https://api.beans.ai"
+var BOUNDS_EXT = 0.0002;
+
+var createMarker = function(iconConfig, markerUrl, markerText, extraCss) {
+  var finalMarkerUrl = markerUrl ? markerUrl : iconConfig.icon.replace('https://storage.googleapis.com/beans-mobile-resources/marker-note-icons/', 'https://www.beans.ai/m/assets/');
+
+  var markerEl;
+  if (markerText) {
+    markerEl = createDivWithClass("marker");
+    markerEl.setAttribute('style', (extraCss ? extraCss : '') + 'min-width: 36px; height: 44px;');
+    var markerEl2 = createDivWithClass("marker");
+    markerEl2.setAttribute('style', 'min-width: 36px; height: 36px; background-color: #fff; border-radius: 3px; box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.2);');
+    var markerInnerEl = document.createElement('div');
+    markerInnerEl.setAttribute('style', 'position: relative; top: 0px; left: 0px; width: 30px; height: 30px; background-color: #' + iconConfig.color_code + '; border: 3px solid white; border-radius: 3px; display: inline-block;');
+    var markerTextEl = document.createElement('div');
+    markerTextEl.setAttribute('style', 'position: relative; top: 0px; left: 0px; padding-right: 5px; height: 25px; font-size: 14px; font-weight: 400; border: 3px solid #fff; overflow: hidden; display: inline-block;');
+    markerTextEl.innerHTML = markerText;
+    var markerLineEl = document.createElement('div');
+    markerLineEl.setAttribute('style', 'position: absolute; top: 36px; left: 17px; width: 4px; height: 8px; background-color: #fff; box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.2);');
+    var imgEl = document.createElement('div');
+    imgEl.setAttribute('style', 'position: absolute; top: 5px; left: 5px; width: 20px; height: 20px; background-color: #fff; mask-size: 20px 20px; -webkit-mask-size: 20px 20px; mask-image: url(' + finalMarkerUrl + '); -webkit-mask-image: url(' + finalMarkerUrl + ')');
+    markerInnerEl.appendChild(imgEl);
+    markerEl.appendChild(markerLineEl);
+    markerEl2.appendChild(markerInnerEl);
+    markerEl2.appendChild(markerTextEl);
+    markerEl.appendChild(markerEl2);
+  } else {
+    markerEl = createDivWithClass("marker");
+    markerEl.setAttribute('style', (extraCss ? extraCss : '') + 'width: 36px; height: 44px;');
+    var markerInnerEl = document.createElement('div');
+    markerInnerEl.setAttribute('style', 'position: relative; top: 0px; left: 0px; width: 30px; height: 30px; background-color: #' + iconConfig.color_code + '; border: 3px solid white; border-radius: 3px; box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.2');
+    var markerLineEl = document.createElement('div');
+    markerLineEl.setAttribute('style', 'position: absolute; top: 36px; left: 17px; width: 4px; height: 8px; background-color: #fff; box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.2);');
+    var imgEl = document.createElement('div');
+    imgEl.setAttribute('style', 'position: absolute; top: 5px; left: 5px; width: 20px; height: 20px; background-color: #fff; mask-size: 20px 20px; -webkit-mask-size: 20px 20px; mask-image: url(' + finalMarkerUrl + '); -webkit-mask-image: url(' + finalMarkerUrl + ')');
+    markerInnerEl.appendChild(imgEl);
+    markerEl.appendChild(markerLineEl);
+    markerEl.appendChild(markerInnerEl);
+  }
+  return markerEl;
+}
+
+var createMiniMarker = function(iconConfig, markerUrl, extraCss) {
+  var finalMarkerUrl = markerUrl ? markerUrl : iconConfig.icon.replace('https://storage.googleapis.com/beans-mobile-resources/marker-note-icons/', 'https://www.beans.ai/m/assets/');
+
+  var markerEl = createDivWithClass("marker");
+  markerEl.setAttribute('style', (extraCss ? extraCss : '') + 'width: 24px; height: 30px;');
+  var markerInnerEl = document.createElement('div');
+  markerInnerEl.setAttribute('style', 'position: relative; top: 0px; left: 0px; width: 20px; height: 20px; background-color: #' + iconConfig.color_code + '; border: 2px solid white; border-radius: 2px; box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2');
+  var markerLineEl = document.createElement('div');
+  markerLineEl.setAttribute('style', 'position: absolute; top: 24px; left: 11px; width: 2px; height: 4px; background-color: #fff; box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);');
+  var imgEl = document.createElement('div');
+  imgEl.setAttribute('style', 'position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; background-color: #fff; mask-size: 12px 12px; -webkit-mask-size: 12px 12px; mask-image: url(' + finalMarkerUrl + '); -webkit-mask-image: url(' + finalMarkerUrl + ')');
+  markerInnerEl.appendChild(imgEl);
+  markerEl.appendChild(markerLineEl);
+  markerEl.appendChild(markerInnerEl);
+  return markerEl;
+}
+
+var createMiniMarkerWithoutLine = function(iconConfig, markerUrl, extraCss) {
+  var finalMarkerUrl = markerUrl ? markerUrl : iconConfig.icon.replace('https://storage.googleapis.com/beans-mobile-resources/marker-note-icons/', 'https://www.beans.ai/m/assets/');
+
+  var markerEl = createDivWithClass("");
+  markerEl.setAttribute('style', (extraCss ? extraCss : '') + 'width: 24px; height: 30px;');
+  var markerInnerEl = document.createElement('div');
+  markerInnerEl.setAttribute('style', 'position: relative; top: 0px; left: 0px; width: 20px; height: 20px; background-color: #' + iconConfig.color_code + '; border: 2px solid white; border-radius: 2px; box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2');
+  var imgEl = document.createElement('div');
+  imgEl.setAttribute('style', 'position: absolute; top: 4px; left: 4px; width: 12px; height: 12px; background-color: #fff; mask-size: 12px 12px; -webkit-mask-size: 12px 12px; mask-image: url(' + finalMarkerUrl + '); -webkit-mask-image: url(' + finalMarkerUrl + ')');
+  markerInnerEl.appendChild(imgEl);
+  markerEl.appendChild(markerInnerEl);
+  return markerEl;
+}
+
+var globalInstance = {
+  isInitialized: false,
+  userMarkers: [],
+  userLocation: null,
+  methodsToCreateMarker: [],
+  methodsToShowMarker: [],
+  cache: {}
+};
+
+var showLocation = function(position) {
+  var so = this;
+
+  var geolocation = {
+    lng: position.coords.longitude,
+    lat: position.coords.latitude
+  };
+
+  for (var i = 0; i < globalInstance.methodsToShowMarker.length; i++) {
+    if (globalInstance.userMarkers.length < (i + 1)) {
+      globalInstance.userMarkers.push(globalInstance.methodsToCreateMarker[i](geolocation));
+    } else {
+      globalInstance.methodsToShowMarker[i](globalInstance.userMarkers[i], geolocation);
+    }
+  }
+  globalInstance.userLocation = geolocation;
+};
+
+var geolocate = function(navOptions, methodToCreateMarker, methodToShowMarker) {
+  globalInstance.methodsToCreateMarker.push(methodToCreateMarker);
+  globalInstance.methodsToShowMarker.push(methodToShowMarker);
+
+  if (!navOptions || !navOptions.userLocation) {
+    return;
+  }
+
+  if (navOptions && navOptions.userLocation !== 'LIVE' && navOptions.userLocation !== 'MANUAL') {
+    showLocation({
+      coords: {
+        latitude: navOptions.userLocation.lat,
+        longitude: navOptions.userLocation.lng
+      }
+    });
+  } else if (navOptions.userLocation == 'LIVE') {
+    if (globalInstance.isInitialized) {
+      return;
+    }
+    globalInstance.isInitialized = true;
+    if (navigator.geolocation) {
+      var options = {
+        timeout: 120000,
+        enableHighAccuracy: true
+      };
+      navigator.geolocation.watchPosition(showLocation, function() {}, options);
+    }
+  }
+};
+
+var getIconConfig = function(f) {
+  var so = this;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://api.beans.ai/consumer/v2/search/notes/markers/info');
+  xhr.setRequestHeader('format', 'proto');
+  xhr.onreadystatechange = function () {
+    var DONE = 4; // readyState 4 means the request is done.
+    var OK = 200; // status 200 is a successful return.
+    if (xhr.readyState !== DONE || xhr.status !== OK) {
+      return;
+    }
+    var data = JSON.parse(xhr.responseText);
+
+    if (!data.data || !data.data.icons || data.data.icons.length == 0) {
+      so.iconConfig = {};
+      return;
+    }
+
+    so.iconConfig = {};
+    for (var i = 0; i < data.data.icons.length; i++) {
+      so.iconConfig[data.data.icons[i].type] = data.data.icons[i];
+    }
+    f();
+  };
+  xhr.send();
+};
+
+var createUICards = function(div, primaryType) {
+  var so = this;
+
+  var mainDiv = document.getElementById(div);
+  while (mainDiv.firstChild) {
+    mainDiv.removeChild(mainDiv.firstChild);
+  }
+
+  so.ui.divWidth = mainDiv.offsetWidth;
+  so.ui.divHeight = mainDiv.offsetHeight;
+
+  mainDiv.classList.add("beans-container");
+
+  so.ui.beansButtonbar = createDivWithClassAndId("beans-buttonbar " + (so.ui.divWidth > 500 ? "desktop" : "mobile"), "beans-buttonbar");
+  so.ui.buttonSatellite = createDivWithClassAndId("satellite", "satellite");
+  so.ui.buttonMylocation = createDivWithClassAndId("mylocation", "mylocation");
+  so.ui.buttonShadow = createDivWithClassAndId("shadow", "shadow");
+  so.ui.beansButtonbar.appendChild(so.ui.buttonSatellite);
+  so.ui.beansButtonbar.appendChild(so.ui.buttonMylocation);
+  if (typeof require !== 'undefined') {
+    so.ui.beansButtonbar.appendChild(so.ui.buttonShadow);
+  }
+
+  so.ui.cardLinks = createDivWithClassAndId("links-card " + (so.ui.divWidth > 500 ? "desktop" : "mobile"), "links-card");
+  so.ui.cardFloor = createDivWithClassAndId("floor-card " + (so.ui.divWidth > 500 ? "desktop" : "mobile"), "floor-card");
+  so.ui.cardFloor.style.display = "none";
+
+  so.ui.cardBeans = createDivWithClassAndId("beans-card small-card " + (so.ui.divWidth > 500 ? "desktop" : "mobile"), "beans-card");
+  var cardSwipe = createDivWithClassAndId("swipe-card " + (so.ui.divWidth > 500 ? "desktop" : "mobile"), "swipe-card");
+  so.ui.cardBeans.appendChild(cardSwipe);
+
+  if (so.displayOptions && so.displayOptions.customDivs && so.displayOptions.customDivs.header) {
+    so.ui.cardBeans.appendChild(so.displayOptions.customDivs.header);
+  }
+
+  so.ui.cardResult = createDivWithClassAndId("result-card", "result-card");
+  so.ui.buttonNavigate = createDivWithClassAndId("navigate", "navigate");
+  so.ui.textContainerLine1 = createDivWithClass("");
+  so.ui.textContainerLine1.style.width = "100%";
+  so.ui.textLine = [];
+  so.ui.textLine[1] = createDivWithClass("line1");
+  so.ui.textLine[1].innerHTML = "Business Name 1";
+  so.ui.textLine[2] = createDivWithClass("line2");
+  so.ui.textLine[2].innerHTML = "Street Address 1";
+  so.ui.textLine[3] = createDivWithClass("line3");
+  so.ui.textLine[3].innerHTML = "Unit";
+  so.ui.textLine[4] = createDivWithClass("line4");
+  so.ui.textLine[4].innerHTML = "City, State";
+  so.ui.beansRow = createDivWithClass("beans-row");
+
+  if (so.displayOptions && so.displayOptions.hideAddress) {
+    so.ui.textLine[1].style.display = "none";
+    so.ui.textLine[2].style.display = "none";
+    so.ui.textLine[3].style.display = "none";
+    so.ui.textLine[4].style.display = "none";
+  }
+
+  so.ui.beansCol = [];
+  so.ui.beansTile = [];
+  so.ui.beansTileIconContainer = [];
+  so.ui.beansTileIcon = [];
+  so.ui.beansTileText = [];
+
+  so.ui.beansCol[1] = createDivWithClass("beans-col-4");
+  so.ui.beansTile[1] = createDivWithClass("tile tile1");
+  so.ui.beansTileIconContainer[1] = createDivWithClass("tileiconcontainer unknown");
+  so.ui.beansTileIcon[1] = createDivWithClass("tileicon type-parking");
+  so.ui.beansTileText[1] = createDivWithClass("tiletext unknown");
+  so.ui.beansCol[2] = createDivWithClass("beans-col-4");
+  so.ui.beansTile[2] = createDivWithClass("tile tile2");
+  so.ui.beansTileIconContainer[2] = createDivWithClass("tileiconcontainer unknown");
+  so.ui.beansTileIcon[2] = createDivWithClass("tileicon type-parking");
+  so.ui.beansTileText[2] = createDivWithClass("tiletext unknown");
+  so.ui.beansCol[3] = createDivWithClass("beans-col-4");
+  so.ui.beansTile[3] = createDivWithClass("tile tile3");
+  so.ui.beansTileIconContainer[3] = createDivWithClass("tileiconcontainer unknown");
+  so.ui.beansTileIcon[3] = createDivWithClass("tileicon type-parking");
+  so.ui.beansTileText[3] = createDivWithClass("tiletext unknown");
+  so.ui.cardDirections = createDivWithClass("directions-card");
+  so.ui.cardDirections.style.display = "none";
+  so.ui.cardFacilities = createDivWithClass("facilities-card");
+  so.ui.cardFacilities.style.display = "none";
+  so.ui.cardClickData = createDivWithClass("clickdata-card");
+  so.ui.cardClickData.style.display = "none";
+  so.ui.textNotes = createDivWithClass("text-notes");
+
+  so.ui.beansTileIconContainer[1].appendChild(so.ui.beansTileIcon[1]);
+  so.ui.beansTileIconContainer[2].appendChild(so.ui.beansTileIcon[2]);
+  so.ui.beansTileIconContainer[3].appendChild(so.ui.beansTileIcon[3]);
+  so.ui.beansTile[1].appendChild(so.ui.beansTileIconContainer[1]);
+  so.ui.beansTile[1].appendChild(so.ui.beansTileText[1]);
+  so.ui.beansTile[2].appendChild(so.ui.beansTileIconContainer[2]);
+  so.ui.beansTile[2].appendChild(so.ui.beansTileText[2]);
+  so.ui.beansTile[3].appendChild(so.ui.beansTileIconContainer[3]);
+  so.ui.beansTile[3].appendChild(so.ui.beansTileText[3]);
+  so.ui.beansCol[1].appendChild(so.ui.beansTile[1]);
+  so.ui.beansCol[2].appendChild(so.ui.beansTile[2]);
+  so.ui.beansCol[3].appendChild(so.ui.beansTile[3]);
+  so.ui.beansRow.appendChild(so.ui.beansCol[1]);
+  so.ui.beansRow.appendChild(so.ui.beansCol[2]);
+  so.ui.beansRow.appendChild(so.ui.beansCol[3]);
+  so.ui.textContainerLine1.appendChild(so.ui.textLine[1]);
+  so.ui.cardResult.appendChild(so.ui.buttonNavigate);
+  so.ui.cardResult.appendChild(so.ui.textContainerLine1);
+  so.ui.cardResult.appendChild(so.ui.textLine[2]);
+  so.ui.cardResult.appendChild(so.ui.textLine[3]);
+  so.ui.cardResult.appendChild(so.ui.textLine[4]);
+  so.ui.cardResult.appendChild(so.ui.cardClickData);
+
+  so.ui.cardResult.appendChild(so.ui.beansRow);
+  if (so.ui.divWidth < 500) {
+  } else {
+    so.ui.cardResult.appendChild(so.ui.cardLinks);
+    // so.ui.cardResult.appendChild(so.ui.cardFloor);
+  }
+  so.ui.cardResult.appendChild(so.ui.textNotes);
+  so.ui.cardResult.appendChild(so.ui.cardDirections);
+  so.ui.cardResult.appendChild(so.ui.cardFacilities);
+  so.ui.cardBeans.appendChild(so.ui.cardResult);
+
+  var m = createDivWithClass(primaryType);
+  so.mapId = primaryType + "-" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  m.id = so.mapId;
+  m.style.width = so.ui.divWidth + 'px';
+  m.style.height = so.ui.divHeight + 'px';
+  mainDiv.appendChild(m);
+  mainDiv.appendChild(so.ui.beansButtonbar);
+  mainDiv.appendChild(so.ui.cardBeans);
+
+  if (so.ui.divWidth < 500) {
+    mainDiv.appendChild(so.ui.cardLinks);
+  }
+
+  if (so.ui.divWidth < 500) {
+    so.ui.cardFloor.style.maxHeight = (so.ui.divHeight - 300 - 110) + 'px';
+  } else {
+    so.ui.cardFloor.style.maxHeight = (so.ui.divHeight - 270) + 'px';
+  }
+  so.ui.beansButtonbar.appendChild(so.ui.cardFloor);
+
+  if (so.ui.divWidth <= 500) {
+    so.ui.cardBeans.addEventListener('touchstart', function(event) {
+      event.stopPropagation();
+      so.touchstartX = event.changedTouches[0].screenX;
+      so.touchstartY = event.changedTouches[0].screenY;
+    }, false);
+    so.ui.cardBeans.addEventListener('touchend', function(event) {
+      event.stopPropagation();
+      so.touchendX = event.changedTouches[0].screenX;
+      so.touchendY = event.changedTouches[0].screenY;
+
+      if (so.touchendX - so.touchstartX > 70 || so.touchendX - so.touchstartX < -70) {
+        handleGesture.bind(so)();
+      } else if (so.touchendY - so.touchstartY > 20 || so.touchendY - so.touchstartY < -20) {
+        handleGesture.bind(so)();
+      }
+    }, false);
+    so.ui.cardBeans.addEventListener('mousedown', function(event) {
+      event.stopPropagation();
+      so.touchstartX = event.clientX;
+      so.touchstartY = event.clientY;
+    }, false);
+    so.ui.cardBeans.addEventListener('mousemove', function(event) {
+      if (so.touchstartX == 0) return;
+      if (event.stopPropagation) event.stopPropagation();
+      if (event.preventDefault) event.preventDefault();
+      so.touchendX = event.clientX;
+      so.touchendY = event.clientY;
+
+      if (so.touchendX - so.touchstartX > 70 || so.touchendX - so.touchstartX < -70) {
+        handleGesture.bind(so)();
+      } else if (so.touchendY - so.touchstartY > 20 || so.touchendY - so.touchstartY < -20) {
+        handleGesture.bind(so)();
+      }
+    }, false);
+    so.ui.cardBeans.addEventListener('mouseup', function(event) {
+      event.stopPropagation();
+      so.touchstartX = 0;
+    }, false);
+  }
+
+  so.navigateClickListenerObj = navigateClickListener.bind(so);
+  so.idToken = "";
+  so.ui.buttonNavigate.removeEventListener('click', so.navigateClickListenerObj);
+  so.ui.buttonNavigate.addEventListener('click', so.navigateClickListenerObj);
+};
+
+showClickData = function(ix) {
+  var so = this;
+
+  var options = so.options[ix];
+  var list = [];
+  if (options.onClickData) {
+    list = options.onClickData;
+  }
+
+  if (list.length == 0) {
+    so.ui.cardClickData.style.display = "none";
+    return;
+  }
+
+  so.ui.cardClickData.innerHTML = "";
+  so.ui.cardClickData.style.display = "block";
+  for (var i = 0; i < list.length; i++) {
+    var containerDiv = createDivWithClass("clickdata-container");
+    var keyDiv = createDivWithClass("clickdata-key");
+    var valDiv = createDivWithClass("clickdata-value");
+    keyDiv.innerHTML = list[i].name;
+    valDiv.innerHTML = list[i].value;
+    containerDiv.appendChild(keyDiv);
+    containerDiv.appendChild(valDiv);
+    so.ui.cardClickData.appendChild(containerDiv);
+  }
+};
+
+var fillUICards = function(ix) {
+  var so = this;
+
+  so.ui.textLine[1].innerHTML = "";
+  so.ui.textLine[2].innerHTML = "";
+  so.ui.textLine[3].innerHTML = "";
+  so.ui.textLine[4].innerHTML = "";
+  so.ui.beansTileText[1].innerHTML = "";
+  so.ui.beansTileText[1].classList.add('unknown');
+  so.ui.beansTileIconContainer[1].classList.add('unknown');
+  so.ui.beansTileText[2].innerHTML = "";
+  so.ui.beansTileText[2].classList.add('unknown');
+  so.ui.beansTileIconContainer[2].classList.add('unknown');
+  so.ui.beansTileText[3].innerHTML = "";
+  so.ui.beansTileText[3].classList.add('unknown');
+  so.ui.beansTileIconContainer[3].classList.add('unknown');
+
+  var data = so.searchResults[ix];
+  if (!data.routes || data.routes.length == 0) {
+    return;
+  }
+
+  var options = so.options[ix];
+  var route = data.routes[0];
+  var ui = route.route_ui_data;
+
+  if (!ui.address) {
+    return;
+  }
+  var parts = ui.address.split(",");
+
+  var l = 1;
+  if (ui.society) {
+    so.ui.textLine[l].innerHTML = ui.society;
+    l++;
+  }
+  so.ui.textLine[l].innerHTML = parts[0];
+  l++;
+  if (ui.unit) {
+    so.ui.textLine[l].innerHTML = ui.unit;
+    l++;
+  }
+  so.ui.textLine[l].innerHTML = parts[1] + ", " + parts[2];
+  l++;
+
+  if (so.displayOptions && so.displayOptions.hideAddress) {
+    so.ui.textLine[1].style.display = "none";
+    so.ui.textLine[2].style.display = "none";
+    so.ui.textLine[3].style.display = "none";
+    so.ui.textLine[4].style.display = "none";
+  } else {
+    for (var i = 1; i < l; i++) {
+      so.ui.textLine[i].style.display = "block";
+    }
+    for (; l < 5; l++) {
+      so.ui.textLine[i].style.display = "none";
+    }
+  }
+
+  // Tiles
+  if (ui.tiles) {
+    for (var i = 0; i < ui.tiles.length; i++) {
+      /*for (var j = 0; j < 10; j++) {
+        if (so.ui.beansTileIcon[i + 1].classList.item(j) == null) {
+          break;
+        }
+        if (so.ui.beansTileIcon[i + 1].classList.item(j).startsWith("type-")) {
+          so.ui.beansTileIcon[i + 1].classList.remove(so.ui.beansTileIcon[i + 1].classList.item(j));
+          break;
+        }
+      }*/
+      var tileType = ui.tiles[i].type;
+      so.ui.beansTileText[i + 1].innerHTML = ui.tiles[i].text;
+
+      var finalIconUrl = so.iconConfig[tileType].icon.replace('https://storage.googleapis.com/beans-mobile-resources/marker-note-icons/', 'https://www.beans.ai/m/assets/');
+      if (ui.tiles[i].type.toLowerCase() == "entrance") {
+        if (options.tiles && options.tiles.keybox) {
+          tileType = "KEYBOX";
+          finalIconUrl = so.iconConfig[tileType].icon.replace('https://storage.googleapis.com/beans-mobile-resources/marker-note-icons/', 'https://www.beans.ai/m/assets/');
+          so.ui.beansTileText[i + 1].innerHTML = options.tiles.keybox.text ? options.tiles.keybox.text : 'Lockbox';
+          if (options.tiles.keybox.iconUrl) {
+            finalIconUrl = options.tiles.keybox.iconUrl;
+          }
+        } else if (options.tiles && options.tiles.entrance) {
+          so.ui.beansTileText[i + 1].innerHTML = options.tiles.entrance.text;
+          if (options.tiles.entrance.iconUrl) {
+            finalIconUrl = options.tiles.entrance.iconUrl;
+          }
+        }
+      }
+      if (ui.tiles[i].type.toLowerCase() == "elevator" || ui.tiles[i].type.toLowerCase() == "stair") {
+        so.ui.beansTileText[i + 1].innerHTML = (options.tiles && options.tiles.elevation) ? options.tiles.elevation.text : ui.tiles[i].text;
+        if (options.tiles && options.tiles.elevation && options.tiles.elevation.iconUrl) {
+          finalIconUrl = options.tiles.elevation.iconUrl;
+        }
+      }
+      if (ui.tiles[i].type.toLowerCase() == "parking") {
+        so.ui.beansTileText[i + 1].innerHTML = (options.tiles && options.tiles.parking) ? options.tiles.parking.text : ui.tiles[i].text;
+        if (options.tiles && options.tiles.parking && options.tiles.parking.iconUrl) {
+          finalIconUrl = options.tiles.parking.iconUrl;
+        }
+      }
+
+      so.ui.beansTileIconContainer[i + 1].setAttribute('style', 'background-color: #' + so.iconConfig[tileType].color_code + '; border-radius: 50%');
+      so.ui.beansTileIcon[i + 1].setAttribute('style', 'mask-image: url(' + finalIconUrl + '); -webkit-mask-image: url(' + finalIconUrl + ')');
+      if (ui.tiles[i].status !== "UNKNOWN" && ui.tiles[i].status !== "UNAVAILABLE") {
+        so.ui.beansTileText[i + 1].classList.remove('unknown');
+        so.ui.beansTileIconContainer[i + 1].classList.remove('unknown');
+      }
+    }
+    so.ui.beansTile[1].style.display = "block";
+    so.ui.beansTile[2].style.display = "block";
+    so.ui.beansTile[3].style.display = "block";
+  }
+
+  while (so.ui.cardLinks.firstChild) {
+    so.ui.cardLinks.removeChild(so.ui.cardLinks.firstChild);
+  }
+  if (ui.marker_links) {
+    var x = createDivWithClass('links-flex');
+    so.ui.cardLinks.appendChild(x);
+    for (var i = 0; i < ui.marker_links.length; i++) {
+      var mi = ui.marker_links[i].start_id;
+      var mj = ui.marker_links[i].end_id;
+      var mim = null;
+      var mjm = null;
+      for (var j = 0; j < ui.markers.length; j++) {
+        if (ui.markers[j].id === mi) {
+          mim = ui.markers[j].type;
+        }
+        if (ui.markers[j].id === mj) {
+          mjm = ui.markers[j].type;
+        }
+      }
+      if (!mim || !mjm) {
+        continue;
+      }
+
+      var t = createDivWithClass('links-text');
+      t.innerHTML = ui.marker_links[i].label.distance_text;
+      if (i == 0) {
+        var markerUrl = null;
+        if (options.poi) {
+          for (var oix = 0; oix < options.poi.length; oix++) {
+            if (options.poi[oix].name === mim && options.poi[oix].iconUrl) {
+              markerUrl = options.poi[oix].iconUrl;
+            }
+          }
+        }
+        x.appendChild(createMiniMarkerWithoutLine(so.iconConfig[mim], markerUrl, ''));
+      }
+      x.appendChild(t);
+
+      var markerUrl = null;
+      if (options.poi) {
+        for (var oix = 0; oix < options.poi.length; oix++) {
+          if (options.poi[oix].name === mjm && options.poi[oix].iconUrl) {
+            markerUrl = options.poi[oix].iconUrl;
+          }
+        }
+      }
+      x.appendChild(createMiniMarkerWithoutLine(so.iconConfig[mjm], markerUrl, ''));
+    }
+  }
+
+  if (ui.note) {
+    so.ui.textNotes.innerHTML = ui.note;
+  } else {
+    so.ui.textNotes.innerHTML = "";
+  }
+
+  if (options.tiles && options.tiles.display === false) {
+    so.ui.cardBeans.style.display = "none";
+  } else {
+    so.ui.cardBeans.style.display = "block";
+  }
+  if (options.links && options.links.display === false) {
+    so.ui.cardLinks.style.display = "none";
+  } else {
+    so.ui.cardLinks.style.display = "block";
+  }
+
+  so.navigateLatLng = route.navigate_to;
+};
+
+var resetUICards = function() {
+  var so = this;
+
+  so.ui.textNotes.innerHTML = "";
+  so.ui.cardFacilities.innerHTML = "";
+  so.ui.cardFacilities.style.display = "none";
+  so.ui.cardDirections.innerHTML = "";
+  so.ui.cardDirections.style.display = "none";
+  so.ui.cardClickData.innerHTML = "";
+  so.ui.cardClickData.style.display = "none";
+  so.ui.cardFloor.innerHTML = "";
+  so.ui.cardFloor.style.display = "none";
+  so.ui.cardLinks.innerHTML = "";
+
+  so.ui.cardBeans.classList.remove('active');
+  so.hasSearchResult = false;
+  so.ui.cardResult.classList.remove('active');
+
+  so.ui.textLine[1].innerHTML = "";
+  so.ui.textLine[2].innerHTML = "";
+  so.ui.textLine[3].innerHTML = "";
+  so.ui.textLine[4].innerHTML = "";
+
+  so.ui.textLine[1].style.display = "none";
+  so.ui.textLine[2].style.display = "none";
+  so.ui.textLine[3].style.display = "none";
+  so.ui.textLine[4].style.display = "none";
+
+  so.ui.beansTileText[1].innerHTML = "";
+  so.ui.beansTileText[1].classList.add('unknown');
+  so.ui.beansTileIconContainer[1].classList.add('unknown');
+  so.ui.beansTileText[2].innerHTML = "";
+  so.ui.beansTileText[2].classList.add('unknown');
+  so.ui.beansTileIconContainer[2].classList.add('unknown');
+  so.ui.beansTileText[3].innerHTML = "";
+  so.ui.beansTileText[3].classList.add('unknown');
+  so.ui.beansTileIconContainer[3].classList.add('unknown');
+
+  so.navigateLatLng = undefined;
+}
+
+var handleGesture = function() {
+  var so = this;
+
+  if (so.touchendX < so.touchstartX - 70 && so.currentIx < so.searchResults.length - 1) {
+    so.currentIx = so.currentIx + 1;
+    so.displayDataFor(so.currentIx);
+    so.map.panTo(so.markers[so.currentIx].getPosition());
+  }
+  if (so.touchendX > so.touchstartX + 70 && so.currentIx > 0) {
+    so.currentIx = so.currentIx - 1;
+    so.displayDataFor(so.currentIx);
+    so.map.panTo(so.markers[so.currentIx].getPosition());
+  }
+
+  if (so.touchendY > so.touchstartY + 20) {
+    if (!so.bigCard) {
+      return;
+    }
+    so.bigCard = false;
+    so.ui.cardBeans.classList.remove('big-card');
+    so.ui.cardBeans.classList.add('small-card');
+    so.touchstartX = 0;
+  }
+  if (so.touchendY < so.touchstartY - 20) {
+    if (so.bigCard) {
+      return;
+    }
+    so.bigCard = true;
+    so.ui.cardBeans.classList.remove('small-card');
+    so.ui.cardBeans.classList.add('big-card');
+    so.touchstartX = 0;
+  }
+};
+
+var createDivWithClass = function(className) {
+  var x = document.createElement('div');
+  x.className = className;
+  return x;
+};
+
+var createDivWithClassAndId = function(className, id) {
+  var x = document.createElement('div');
+  x.setAttribute("id", id);
+  x.className = className;
+  return x;
+};
+
+var navigateClickListener = function() {
+  var so = this;
+  if (globalInstance.userLocation && so.navigateLatLng) {
+    if (!so.navOptions || !so.navOptions.platform || so.navOptions.platform === 'GOOGLE') {
+      window.open("https://www.google.com/maps/dir/" + globalInstance.userLocation.lat + "," + globalInstance.userLocation.lng + "/" + so.navigateLatLng.lat + "," + so.navigateLatLng.lng, '_blank');
+    } else if (so.navOptions.platform === 'APPLE') {
+      window.open("http://maps.apple.com/?saddr=" + globalInstance.userLocation.lat + "," + globalInstance.userLocation.lng + "&daddr=" + so.navigateLatLng.lat + "," + so.navigateLatLng.lng, '_blank');
+    }
+  }
+};
+
+var failure = function() {
+  so.ui.textLine[1].innerHTML = "Address not found";
+  so.ui.textLine[1].style.display = "block";
+  for (var l = 2; l < 5; l++) {
+    so.ui.textLine[l].style.display = "none";
+  }
+
+  so.ui.cardBeans.style.display = "block";
+  so.ui.cardLinks.style.display = "none";
+  so.ui.beansRow.style.display = "none";
+  so.ui.cardResult.classList.add('active');
+  so.ui.cardBeans.classList.remove('big-card');
+  so.ui.cardBeans.classList.add('small-card');
+  so.ui.buttonNavigate.style.visibility = "hidden"
+};
+
+var getBuildingUnitPolygons = function(address, unitPolygonToExclude, callback) {
+  var so = this;
+
+  var renderBuildings = function (data) {
+    if (!data.data.buildings) {
+      return callback([]);
+    }
+
+    var unitPolygonsToDraw = [];
+
+    var buildings = data.data.buildings;
+    var features = [];
+    for (var i=0; i < buildings.length; i++) {
+      for (var j = 0; j < buildings[i].points_of_interest.length; j++) {
+        if (!buildings[i].points_of_interest[j].location) {
+          continue;
+        }
+
+        var floor = buildings[i].points_of_interest[j].floor === undefined ? "0" : buildings[i].points_of_interest[j].floor;
+        floor = floor.replaceAll("Floor_", "");
+        // if (floor !== so.selectedFloor + "") {
+        //   continue;
+        // }
+
+        var baseHeight = buildings[i].points_of_interest[j].base_height;
+        var height = buildings[i].points_of_interest[j].wall_height;
+
+        if (!baseHeight) {
+          baseHeight = 0;
+        }
+        if (baseHeight <= 0) {
+          // Approximate base height and floor height, if not available
+          if (!isNaN(floor)) {
+            baseHeight = parseInt(floor) == 0 ? 0 : ((parseInt(floor) - 1) * 3);
+            height = 3;
+          } else {
+            if (floor == "B1" || floor.startsWith("L")) {
+              baseHeight = 0;
+              height = 3;
+            } else {
+              continue;
+            }
+          }
+        }
+
+        var footprint = buildings[i].points_of_interest[j].footprint;
+        var feature = null;
+        if (footprint != null && footprint.point != null) {
+          var p = new Array();
+          for (var k = 0; k < footprint.point.length; k++) {
+            p.push([footprint.point[k].lng, footprint.point[k].lat]);
+            //bounds.extend([footprint.point[k].lng, footprint.point[k].lat]);
+          }
+          if (footprint.point.length > 0) {
+            p.push([footprint.point[0].lng, footprint.point[0].lat]);
+          }
+          if (buildings[i].points_of_interest[j].name === "334") {
+          }
+          if (unitPolygonToExclude && unitPolygonToExclude.coordinates && JSON.stringify(unitPolygonToExclude.coordinates) === JSON.stringify([p])) {
+            var d = Math.abs(Number.parseFloat(baseHeight).toFixed(0) - unitPolygonToExclude.elevation);
+            if (d < 2) {
+              continue;
+            }
+          }
+
+          unitPolygonsToDraw.push({
+            elevation: baseHeight,
+            height: height,
+            coordinates: p,
+            floor: floor,
+            description: buildings[i].points_of_interest[j].name
+          });
+        }
+      }
+    }
+    callback(unitPolygonsToDraw);
+  };
+
+  if (globalInstance.cache["bldg-" + address]) {
+    renderBuildings(globalInstance.cache["bldg-" + address]);
+  } else {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', serverUrl + '/consumer/v2/search/address-poi?address=' + encodeURIComponent(address));
+    // xhr.open('GET', 'http://localhost:8080/consumer/v2/search/address-poi?address=' + encodeURIComponent(address));
+    xhr.setRequestHeader('Authorization', 'Basic ' + btoa(so.apiKey));
+    xhr.onreadystatechange = function () {
+      var DONE = 4; // readyState 4 means the request is done.
+      var OK = 200; // status 200 is a successful return.
+      if (xhr.readyState !== DONE || xhr.status !== OK) {
+        return;
+      }
+      var data = JSON.parse(xhr.responseText);
+      globalInstance.cache["bldg-" + address] = data;
+      renderBuildings(data);
+    };
+    xhr.send();
+  }
+};
+
+var showDirections = function(path, first, notesOnMarkers) {
+  var so = this;
+
+  if (so.displayOptions.showDirections) {
+    if (path && path.leg) {
+      for (var j = 0; j < path.leg.length; j++) {
+        if (!path.leg[j].text) {
+          continue;
+        }
+        if (path.leg[j].text.startsWith("Depart")) {
+          continue;
+        }
+
+        if (first) {
+          so.ui.cardDirections.style.display = "block";
+          so.ui.cardDirections.innerHTML = "Directions";
+        }
+        first = false;
+        var directionsOuterEl = createDivWithClass("directions-row");
+        var directionsImgContainerEl = createDivWithClass("directions-img-container");
+        var directionsImgEl = document.createElement('img');
+        directionsImgEl.className = "directions-img";
+        if (path.leg[j].text && path.leg[j].text.startsWith("Turn right")) {
+          directionsImgEl.src = "https://www.beans.ai/m/assets/directions/turn_right.svg";
+          directionsImgContainerEl.appendChild(directionsImgEl);
+        }
+        if (path.leg[j].text && path.leg[j].text.startsWith("Turn left")) {
+          directionsImgEl.src = "https://www.beans.ai/m/assets/directions/turn_left.svg";
+          directionsImgContainerEl.appendChild(directionsImgEl);
+        }
+        if (path.leg[j].text && path.leg[j].text.startsWith("Keep right")) {
+          directionsImgEl.src = "https://www.beans.ai/m/assets/directions/continue_slight_right.svg";
+          directionsImgContainerEl.appendChild(directionsImgEl);
+        }
+        if (path.leg[j].text && path.leg[j].text.startsWith("Keep left")) {
+          directionsImgEl.src = "https://www.beans.ai/m/assets/directions/continue_slight_left.svg";
+          directionsImgContainerEl.appendChild(directionsImgEl);
+        }
+        if (path.leg[j].text && path.leg[j].text.startsWith("Bear right")) {
+          directionsImgEl.src = "https://www.beans.ai/m/assets/directions/turn_right.svg";
+          directionsImgContainerEl.appendChild(directionsImgEl);
+        }
+        if (path.leg[j].text && path.leg[j].text.startsWith("Bear left")) {
+          directionsImgEl.src = "https://www.beans.ai/m/assets/directions/turn_right.svg";
+          directionsImgContainerEl.appendChild(directionsImgEl);
+        }
+        if (path.leg[j].text && path.leg[j].text.startsWith("Start")) {
+          directionsImgEl.src = "https://www.beans.ai/m/assets/directions/depart.svg";
+          directionsImgContainerEl.appendChild(directionsImgEl);
+        }
+        if (path.leg[j].text && path.leg[j].text.startsWith("Continue forward")) {
+          directionsImgEl.src = "https://www.beans.ai/m/assets/directions/continue.svg";
+          directionsImgContainerEl.appendChild(directionsImgEl);
+        }
+        if (path.leg[j].text && path.leg[j].text.startsWith("Finish") && path.leg[j].text.endsWith("left")) {
+          directionsImgEl.src = "https://www.beans.ai/m/assets/directions/arrive_left.svg";
+          directionsImgContainerEl.appendChild(directionsImgEl);
+        } else if (path.leg[j].text && path.leg[j].text.startsWith("Finish") && path.leg[j].text.endsWith("right")) {
+          directionsImgEl.src = "https://www.beans.ai/m/assets/directions/arrive_right.svg";
+          directionsImgContainerEl.appendChild(directionsImgEl);
+        } else if (path.leg[j].text && path.leg[j].text.startsWith("Finish")) {
+          directionsImgEl.src = "https://www.beans.ai/m/assets/directions/arrive.svg";
+          directionsImgContainerEl.appendChild(directionsImgEl);
+        }
+        if (path.leg[j].text && path.leg[j].text.startsWith("Continue forward")) {
+          directionsImgEl.src = "https://www.beans.ai/m/assets/directions/continue.svg";
+          directionsImgContainerEl.appendChild(directionsImgEl);
+        }
+        var directionsTextEl = createDivWithClass("directions-text");
+        directionsTextEl.innerHTML = path.leg[j].text + (path.leg[j].distance_m ? (' (' + (path.leg[j].distance_m * 3.28084).toFixed() + 'ft)') : '');
+        directionsOuterEl.appendChild(directionsImgContainerEl);
+        directionsOuterEl.appendChild(directionsTextEl);
+        if (so.displayOptions.showNotesInDirections && notesOnMarkers) {
+          for (var i in notesOnMarkers) {
+            if (path.leg[j].text && path.leg[j].text.toLowerCase().indexOf(i.toLowerCase()) !== -1) {
+              var directionsSubtextEl = createDivWithClass("directions-subtext");
+              directionsSubtextEl.innerHTML = notesOnMarkers[i];
+              directionsOuterEl.appendChild(directionsSubtextEl);
+            }
+          }
+        }
+        so.ui.cardDirections.appendChild(directionsOuterEl);
+      }
+    }
+  }
+
+  return first;
+};
+
+var getPOIs = function(ix) {
+  var so = this;
+  var data = so.searchResults[ix];
+  var options = so.options[ix];
+
+  var response = [];
+  if (data.points_of_interest || options.poi) {
+    var pois = [];
+    if (data.points_of_interest) {
+      pois = pois.concat(data.points_of_interest);
+    }
+    if (options.poi) {
+      for (var i = 0; i < options.poi.length; i++) {
+        if (options.poi[i].location) {
+          pois.push(JSON.parse(JSON.stringify(options.poi[i])));
+        } else {
+          for (var j = 0; j < pois.length; j++) {
+            if (pois[j].name === options.poi[i].name && options.poi[i].tooltip) {
+              pois[j].text = options.poi[i].tooltip;
+            }
+          }
+        }
+      }
+
+      for (var i = 0; i < options.poi.length; i++) {
+        for (var j = 0; j < pois.length; j++) {
+          if (pois[j].name === options.poi[i].name || options.poi[i].name === 'ALL') {
+            // This takes the same display as the options
+            pois[j].display = options.poi[i].display === undefined ? true : options.poi[i].display;
+          }
+        }
+      }
+    }
+
+    for (var i = 0; i < pois.length; i++) {
+      if (!pois[i].location) {
+        continue;
+      }
+      if (pois[i].display !== undefined && !pois[i].display) {
+        continue;
+      }
+
+      var url = "";
+      var mode = 0;
+      var isMiniMarker = true;
+      var displayName = pois[i].name;
+      var keyName = pois[i].name;
+
+      if (pois[i].name === "SWIMMINGPOOL") {
+        displayName = "Swimming Pool";
+        mode = 2;
+      }
+      if (pois[i].name === "CARWASH") {
+        displayName = "Car Wash";
+        mode = 2;
+      }
+      if (pois[i].name === "TENNIS") {
+        displayName = "Tennis";
+        mode = 2;
+      }
+      if (pois[i].name === "TRASH") {
+        displayName = "Trash";
+        mode = 2;
+      }
+      if (pois[i].name === "LAUNDRY") {
+        displayName = "Laundry";
+        mode = 2;
+      }
+      if (pois[i].name === "OFFICE") {
+        keyName = "LEASING_OFFICE";
+        displayName = "Office";
+        mode = 2;
+      }
+      if (pois[i].name === "LEASING_OFFICE") {
+        displayName = "Office";
+        mode = 2;
+      }
+      if (pois[i].name === "CLUBHOUSE") {
+        displayName = "Club House";
+        mode = 2;
+      }
+      if (pois[i].name === "BBQ") {
+        displayName = "BBQ";
+        mode = 2;
+      }
+      if (pois[i].name === "MAILROOM") {
+        keyName = "MAILBOX";
+        displayName = "Mailbox Room";
+        mode = 2;
+      }
+      if (pois[i].name === "MAILBOX") {
+        displayName = "Mailbox Room";
+        mode = 2;
+      }
+      if (pois[i].name === "PACKAGELOCKER") {
+        keyName = "DELIVERY_LOCKER";
+        displayName = "Package Lockers";
+        mode = 2;
+      }
+      if (pois[i].name === "DELIVERY_LOCKER") {
+        displayName = "Package Lockers";
+        mode = 2;
+      }
+      if (pois[i].name === "KEYBOX") {
+        displayName = "Lockbox";
+        isMiniMarker = false;
+        mode = 2;
+      }
+      if (pois[i].name === "GYM") {
+        displayName = "Gym";
+        mode = 2;
+      }
+      if (pois[i].name === "CYCLESTORAGE") {
+        displayName = "Bike Storage";
+        mode = 2;
+      }
+      if (pois[i].name === "ROAD_BLOCK") {
+        displayName = "Road Block";
+        mode = 2;
+      }
+      if (pois[i].name === "DOG") {
+        displayName = "Dog";
+        mode = 2;
+      }
+      if (pois[i].name === "SOCIETY_GATE") {
+        displayName = "Society Gate";
+        mode = 2;
+      }
+
+      if (mode == 0) {
+        continue;
+      }
+
+      var markerUrl = null;
+      if (options.poi) {
+        for (var oix = 0; oix < options.poi.length; oix++) {
+          if (options.poi[oix].name === keyName && options.poi[oix].iconUrl) {
+            markerUrl = options.poi[oix].iconUrl;
+          }
+        }
+      }
+
+      response.push({
+        keyName: keyName,
+        displayName: displayName,
+        markerUrl: markerUrl,
+        isMiniMarker: isMiniMarker,
+        text: pois[i].text,
+        location: {
+          lat: pois[i].location.lat,
+          lng: pois[i].location.lng
+        }
+      });
+    }
+  }
+
+  return response;
+}
+
+var renderPOIsCard = function(pois) {
+  var so = this;
+
+  so.ui.cardFacilities.style.display = "none";
+  so.ui.cardFacilities.innerHTML = "";
+
+  var first = true;
+  var fac = [];
+
+  for (var i = 0; i < pois.length; i++) {
+    if (first) {
+      so.ui.cardFacilities.style.display = "block";
+      so.ui.cardFacilities.innerHTML = "Points of Interest";
+    }
+    first = false;
+
+    if (fac[pois[i].keyName] === undefined) {
+      var markerUrl = pois[i].markerUrl;
+      var markerEl = createMiniMarkerWithoutLine(so.iconConfig[pois[i].keyName], markerUrl, 'float: left; margin-right: 15px;');
+      var markerTextEl = createDivWithClass("");
+      markerTextEl.innerHTML = pois[i].displayName;
+      var markerOuterEl = createDivWithClass("");
+      markerOuterEl.appendChild(markerEl);
+      markerOuterEl.appendChild(markerTextEl);
+      markerOuterEl.style.marginTop = "15px";
+      markerOuterEl.style.marginLeft = "10px";
+      so.ui.cardFacilities.appendChild(markerOuterEl);
+      fac[pois[i].keyName] = pois[i].keyName;
+    }
+  }
+};
+
+var BeansMap = function() {
+  this.googleObj = null;
+  this.mapboxObj = null;
+  this.esriObj = null;
+};
+
+BeansMap.prototype.render = function(div, apiKey, addressAndUnitWithOptions, navOptions, displayOptions) {
+  var so = this;
+
+  if (typeof mapboxgl !== 'undefined') {
+    if (!so.mapboxObj) {
+      so.mapboxObj = new BeansMapbox();
+      so.mapboxObj.navOptions = navOptions;
+      so.mapboxObj.displayOptions = displayOptions;
+      so.mapboxObj.prepareForSearch(apiKey, div, "pk.eyJ1IjoieG5pdGluZ3VwdGEiLCJhIjoiY2pkODA5dHNlNWJxODJ4bjJpeTcyeHY1MCJ9.KDobE-DWNQaG6XcctRs0sA");
+    }
+    if (addressAndUnitWithOptions && addressAndUnitWithOptions.length > 0) {
+      so.mapboxObj.render(div, apiKey, "pk.eyJ1IjoieG5pdGluZ3VwdGEiLCJhIjoiY2pkODA5dHNlNWJxODJ4bjJpeTcyeHY1MCJ9.KDobE-DWNQaG6XcctRs0sA", addressAndUnitWithOptions);
+    }
+  } else if (typeof google !== 'undefined') {
+    if (!so.googleObj) {
+      so.googleObj = new BeansGoogle();
+      so.googleObj.navOptions = navOptions;
+      so.googleObj.displayOptions = displayOptions;
+      so.googleObj.prepareForSearch(apiKey, div);
+    }
+    if (addressAndUnitWithOptions && addressAndUnitWithOptions.length > 0) {
+      so.googleObj.render(div, apiKey, addressAndUnitWithOptions);
+    }
+  } else if (typeof require !== 'undefined') {
+    if (!so.esriObj) {
+      so.esriObj = new BeansEsri();
+      so.esriObj.navOptions = navOptions;
+      so.esriObj.displayOptions = displayOptions;
+      so.esriObj.prepareForSearch(apiKey, div, () => {
+        if (addressAndUnitWithOptions && addressAndUnitWithOptions.length > 0) {
+          so.esriObj.render(div, apiKey, addressAndUnitWithOptions);
+        }
+      });
+    } else {
+      if (addressAndUnitWithOptions && addressAndUnitWithOptions.length > 0) {
+        so.esriObj.render(div, apiKey, addressAndUnitWithOptions);
+      }
+    }
+  }
+}
+
+var BeansMapbox = function() {
+  this.idToken = "";
+  this.mapboxToken = "";
+  this.apiKey = "";
+
+  this.map = null;
+  this.mapId = "";
+  this.isInitMap = false;
+  this.previousStyleName = "";
+
+  this.navigateLatLng = null;
+
+  this.hasSearchResult = false;
+  this.layerCounter = 0;
+  this.previousPolygons = [];
+  this.markers = [];
+  this.previousMarker = [];
+  this.previousCustomMarker = [];
+  this.mapStyle = "";
+  this.showDistances = false;
+  this.bigCard = false;
+  this.iconConfig = {};
+
+  this.touchstartX = 0;
+  this.touchstartY = 0;
+  this.touchendX = 0;
+  this.touchendY = 0;
+
+  this.navigateClickListenerObj = null;
+  this.navOptions = null;
+  this.displayOptions = null;
+
+  this.searchResults = [];
+  this.options = [];
+  this.currentIx = 0;
+  this.bounds = null;
+
+  this.selectedFloor = 0;
+
+  this.ui = {
+    divWidth: 0,
+    divHeight: 0,
+    beansButtonbar: null,
+    buttonSatellite : null,
+    buttonMylocation : null,
+    cardBeans : null,
+    cardResult : null,
+    buttonNavigate : null,
+    textContainerLine1 : null,
+    textLine1 : null,
+    textLine2 : null,
+    textLine3 : null,
+    textLine4 : null,
+    beansRow : null,
+    beansCol1 : null,
+    beansTile1 : null,
+    beansTileIconContainer1 : null,
+    beansTileIcon1 : null,
+    beansTileText1 : null,
+    beansCol2 : null,
+    beansTile2 : null,
+    beansTileIconContainer2 : null,
+    beansTileIcon2 : null,
+    beansTileText2 : null,
+    beansCol3 : null,
+    beansTile3 : null,
+    beansTileIconContainer3 : null,
+    beansTileIcon3 : null,
+    beansTileText3 : null,
+    cardFacilities : null,
+    cardLinks : null
+  };
+}
+
+BeansMapbox.prototype.prepareForSearch = function(apiKey, div, mapboxToken) {
+  var so = this;
+
+  so.apiKey = apiKey;
+  so.mapboxToken = mapboxToken;
+
+  createUICards.bind(so)(div, "BeansMapbox");
+  so.initMap();
+
+  so.ui.buttonSatellite.addEventListener('click', function() {
+    // so.map.setStyle(so.map.getStyle().name == "Mapbox Satellite" ? "mapbox://styles/mapbox/streets-v11" : "mapbox://styles/mapbox/satellite-v9");
+    so.map.setStyle(so.map.getStyle().name == "Mapbox Satellite" ? "mapbox://styles/xnitingupta/cl51fvbpy000414nwpef0a0jm/draft" : "mapbox://styles/mapbox/satellite-v9");
+  });
+  so.ui.buttonMylocation.addEventListener('click', function() {
+    if (globalInstance.userLocation != null) {
+      var position = {
+        coords: {
+          longitude: globalInstance.userLocation.lng,
+          latitude: globalInstance.userLocation.lat
+        }
+      };
+      showLocation(position);
+
+      so.map.setZoom(Math.max(so.map.getZoom(), 17));
+      var bounds = new mapboxgl.LngLatBounds();
+      bounds.extend([globalInstance.userLocation.lng, globalInstance.userLocation.lat]);
+      so.map.fitBounds(bounds, {
+        linear: true,
+        duration: 0,
+        maxZoom: so.ui.divWidth < 1000 ? 19 : 18,
+        padding: {
+          top: 50,
+          left: 20,
+          right: 20,
+          bottom: so.ui.divWidth < 1000 ? 310 : 50
+        }
+      });
+    }
+  });
+}
+
+BeansMapbox.prototype.render = function(div, apiKey, mapboxToken, addressAndUnitWithOptions) {
+  var so = this;
+  so.resetState();
+
+  if (so.map && so.map.isStyleLoaded()) {
+    for (var i = 0; i < addressAndUnitWithOptions.length; i++) {
+      so.search(
+        addressAndUnitWithOptions[i].address ? addressAndUnitWithOptions[i].address : '',
+        addressAndUnitWithOptions[i].unit ? addressAndUnitWithOptions[i].unit : '',
+        addressAndUnitWithOptions[i].options ? addressAndUnitWithOptions[i].options : {},
+        i);
+    }
+  } else {
+    so.map.once('style.load', () => {
+      getIconConfig.bind(so)(() => {
+        so.resetState();
+        const waiting = () => {
+          if (!so.map.isStyleLoaded()) {
+            setTimeout(waiting, 200);
+          } else {
+            for (var i = 0; i < addressAndUnitWithOptions.length; i++) {
+              so.search(
+                addressAndUnitWithOptions[i].address ? addressAndUnitWithOptions[i].address : '',
+                addressAndUnitWithOptions[i].unit ? addressAndUnitWithOptions[i].unit : '',
+                addressAndUnitWithOptions[i].options ? addressAndUnitWithOptions[i].options : {},
+                i);
+            }
+          }
+        };
+        waiting();
+      });
+    });
+  }
+}
+
+BeansMapbox.prototype.initMap = function() {
+  var so = this;
+
+  if (so.isInitMap) {
+    return;
+  }
+  so.isInitMap = true;
+
+  // if (!so.displayOptions || !so.displayOptions.initialPosition || !so.displayOptions.initialPosition.address) {
+    so.initMapAfterGeocode();
+  // } else {
+  //   var xhr = new XMLHttpRequest();
+  //   xhr.open('GET', serverUrl + '/enterprise/v2/search/beans?address=' + encodeURIComponent(so.displayOptions.initialPosition.address));
+  //   xhr.setRequestHeader('Authorization', 'Basic ' + btoa(so.apiKey));
+  //   xhr.setRequestHeader('search-sdk-profile', 'consumer');
+  //   xhr.setRequestHeader('format', 'proto');
+  //   xhr.onreadystatechange = function () {
+  //     var DONE = 4; // readyState 4 means the request is done.
+  //     var OK = 200; // status 200 is a successful return.
+  //     if (xhr.readyState !== DONE || xhr.status !== OK) {
+  //       return;
+  //     }
+  //     var data = JSON.parse(xhr.responseText);
+  //     if (!data.data) {
+  //       failure.bind(so)();
+  //       return;
+  //     }
+  //     data = data.data;
+  //     if (!data.routes || data.routes.length == 0) {
+  //       failure();
+  //       return;
+  //     }
+  //     so.displayOptions.initialPosition.lat = data.routes[0].navigate_to.lat;
+  //     so.displayOptions.initialPosition.lng = data.routes[0].navigate_to.lng;
+  //     so.initMapAfterGeocode();
+  //   };
+  //   xhr.send();
+  // }
+}
+
+BeansMapbox.prototype.initMapAfterGeocode = function() {
+  var so = this;
+  // var mapType = 'mapbox://styles/mapbox/streets-v11';
+  var mapType = 'mapbox://styles/xnitingupta/cl51fvbpy000414nwpef0a0jm/draft';
+  if (so.displayOptions && so.displayOptions.initialMap === 'SATELLITE') {
+    mapType = 'mapbox://styles/mapbox/satellite-v9';
+  }
+
+  mapboxgl.accessToken = so.mapboxToken;
+  so.map = new mapboxgl.Map({
+      container: so.mapId,
+      style: mapType,
+      fadeDuration: 0,
+      minZoom: 17,
+      maxZoom: 22
+  });
+  // disable map rotation using right click + drag
+  so.map.dragRotate.disable();
+
+  // disable map rotation using touch rotation gesture
+  so.map.touchZoomRotate.disableRotation();
+  so.mapStyle = mapType;
+  // if (so.ui.divWidth > 500) {
+  //   so.map.addControl(new mapboxgl.NavigationControl(), 'bottom-right');
+  // }
+  so.map.setZoom(17);
+  so.map.setCenter([-122.108284, 37.406945]);
+  so.map.on('styledata', function(data) {
+    if (data.style.stylesheet.name != so.previousStyleName) {
+      so.previousStyleName = data.style.stylesheet.name;
+    }
+  });
+
+  if (!so.navOptions || !so.navOptions.userLocation || so.navOptions.hideNavigateButton) {
+    // Hide nav button
+    if (so.ui.buttonNavigate) {
+      so.ui.buttonNavigate.style.display = "none";
+    }
+  }
+
+  geolocate(
+    so.navOptions,
+    function(geolocation) {
+      var markerEl = document.createElement('div');
+      markerEl.className = 'marker-mylocation';
+      var userMarker = new mapboxgl.Marker(markerEl)
+        .setLngLat([geolocation.lng, geolocation.lat])
+        .addTo(so.map);
+      if (so.navigateLatLng && !so.navOptions.hideNavigateButton) {
+        so.ui.buttonNavigate.style.display = "block";
+        so.ui.buttonNavigate.removeEventListener('click', so.navigateClickListenerObj);
+        so.ui.buttonNavigate.addEventListener('click', so.navigateClickListenerObj);
+      }
+      return userMarker;
+    },
+    function(userMarker, geolocation) {
+      userMarker.addTo(so.map);
+      userMarker.setLngLat([geolocation.lng, geolocation.lat]);
+    }
+  );
+
+  so.map.on('styledata', function() {
+    if (so.map.getStyle().name === so.mapStyle) {
+      return;
+    }
+    so.mapStyle = so.map.getStyle().name;
+    if (so.previousPolygons.length > 0) {
+      for (var i = 0; i < so.previousPolygons.length; i++) {
+        ++so.layerCounter;
+        so.previousPolygons[i].polygonObj.id = 'polygon' + so.layerCounter;
+        so.map.addLayer(so.previousPolygons[i].polygonObj);
+        so.previousPolygons[i].polygonName = 'polygon' + so.layerCounter;
+      }
+    }
+  });
+};
+
+BeansMapbox.prototype.resetState = function() {
+  var so = this;
+
+  so.searchResults = [];
+  so.options = [];
+  so.bounds = null;
+  so.currentIx = 0;
+
+  resetUICards.bind(so)();
+
+  if (so.markers && so.markers.length > 0) {
+    for (var i = 0; i < so.markers.length; i++) {
+      if (so.markers[i]) {
+        so.markers[i].getElement().parentNode.removeChild(so.markers[i].getElement());
+      }
+    }
+    so.markers = [];
+  }
+
+  if (so.previousMarker && so.previousMarker.length > 0) {
+    for (var i = 0; i < so.previousMarker.length; i++) {
+      if (so.previousMarker[i]) {
+        so.previousMarker[i].getElement().parentNode.removeChild(so.previousMarker[i].getElement());
+      }
+    }
+    so.previousMarker = [];
+  }
+
+  if (so.previousCustomMarker && so.previousCustomMarker.length > 0) {
+    for (var i = 0; i < so.previousCustomMarker.length; i++) {
+      if (so.previousCustomMarker[i]) {
+        so.previousCustomMarker[i].getElement().parentNode.removeChild(so.previousCustomMarker[i].getElement());
+      }
+    }
+    so.previousCustomMarker = [];
+  }
+
+  if (so.previousPolygons) {
+    for (var i = 0; i < so.previousPolygons.length; i++) {
+      so.map.removeLayer(so.previousPolygons[i].polygonName);
+    }
+    so.previousPolygons = [];
+  }
+}
+
+BeansMapbox.prototype.displayDataFor = function(ix, dontUpdateSelectedFloor) {
+  var so = this;
+  var data = so.searchResults[ix];
+
+  fillUICards.bind(so)(ix);
+
+  if (!data.routes || data.routes.length == 0) {
+    return;
+  }
+
+  var options = so.options[ix];
+  var route = data.routes[0];
+  var ui = route.route_ui_data;
+
+  if (options.onClick) {
+    options.callback(ix);
+  } else if (options.onClickData) {
+    showClickData.bind(so)(ix);
+  }
+
+  if (!so.bounds) {
+    so.bounds = new mapboxgl.LngLatBounds();
+  }
+
+  if (so.previousPolygons) {
+    for (var i = 0; i < so.previousPolygons.length; i++) {
+      so.map.removeLayer(so.previousPolygons[i].polygonName);
+    }
+    so.previousPolygons = [];
+  }
+
+  var markerTypesVisible = [];
+  var markerLatLngsVisible = [];
+  var markerNotes = {};
+  if (ui.markers) {
+    var glHidden = (options.markers && options.markers.display === false);
+
+    for (var i = 0; i < ui.markers.length; i++) {
+      if (!ui.markers[i].location) {
+        continue;
+      }
+      if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === false) {
+        continue;
+      }
+      if (glHidden) {
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === true) {
+        } else {
+          continue;
+        }
+      }
+      markerTypesVisible.push(ui.markers[i].type);
+      markerLatLngsVisible.push(ui.markers[i].location);
+      if (ui.markers[i].note) {
+        markerNotes[ui.markers[i].type] = ui.markers[i].note;
+      }
+    }
+  }
+  var pois = getPOIs.bind(so)(ix);
+  if (pois.length > 0) {
+    for (var i = 0; i < pois.length; i++) {
+      markerTypesVisible.push(pois[i].keyName);
+      markerLatLngsVisible.push(pois[i].location);
+    }
+  }
+
+  if (so.displayOptions && so.displayOptions.showPath && route.fragments) {
+    // Sort visible markers
+    var pathSeq = so.displayOptions && so.displayOptions.path ? so.displayOptions.path : ['PARKING', 'ENTRANCE', 'ELEVATOR', 'STAIR', 'UNIT'];
+    // Reduce path sequence based on visible markers
+    var seqTypesVisible = [];
+    var seqLatLngsVisible = [];
+    for (var i = 0; i < pathSeq.length; i++) {
+      var tix = markerTypesVisible.indexOf(pathSeq[i]);
+      if (tix !== -1) {
+        seqTypesVisible.push(markerTypesVisible[tix]);
+        seqLatLngsVisible.push(markerLatLngsVisible[tix]);
+      }
+    }
+    // Now for each pathSeqVisibleMarkerTypes[i] and pathSeqVisibleMarkerTypes[i+1], we either have the route or we need to calculate
+    var key = '';
+    for (var s = 0; s < seqTypesVisible.length; s++) {
+      var type1 = seqTypesVisible[s];
+      if (type1 === 'KEYBOX') {
+        type1 = 'LOCKBOX';
+      }
+      var latLng1 = seqLatLngsVisible[s];
+
+      if (key !== '') {
+        key = key + ';';
+      }
+
+      key = key + latLng1.lat + ',' + latLng1.lng + ',' + (latLng1.elevation ? latLng1.elevation : '0.0') + ',' + type1;
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', serverUrl + '/enterprise/v2/search/path?waypoints=' + encodeURIComponent(key));
+    xhr.setRequestHeader('Authorization', 'Basic ' + btoa(so.apiKey));
+    xhr.setRequestHeader('format', 'proto');
+    xhr.onreadystatechange = function () {
+      var DONE = 4; // readyState 4 means the request is done.
+      var OK = 200; // status 200 is a successful return.
+      if (xhr.readyState !== DONE || xhr.status !== OK) {
+        return;
+      }
+      var data = JSON.parse(xhr.responseText);
+      if (!data.data) {
+        return;
+      }
+      data = data.data;
+      showDirections.bind(so)(data, true, markerNotes);
+
+      if (data && data.point) {
+        var p = new Array();
+        for (var j = 0; j < data.point.length; j++) {
+          p.push([data.point[j].lng, data.point[j].lat]);
+        }
+        if (p.length < 3) {
+          p.push(p[0]);
+        }
+
+        ++so.layerCounter;
+        var polygonObj = {
+          id: 'polygon' + so.layerCounter,
+          type: 'line',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              geometry: {
+                type: 'Polygon',
+                coordinates: [p]
+              }
+            }
+          },
+          layout: {},
+          paint: {
+            'line-color': '#1967D2',
+            'line-width': 6
+          }
+        };
+        var polygon = so.map.addLayer(polygonObj);
+        so.previousPolygons.push({
+          polygonName: 'polygon' + so.layerCounter,
+          polygonObj: polygonObj
+        });
+
+        ++so.layerCounter;
+        var polygonObj = {
+          id: 'polygon' + so.layerCounter,
+          type: 'line',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              geometry: {
+                type: 'Polygon',
+                coordinates: [p]
+              }
+            }
+          },
+          layout: {},
+          paint: {
+            'line-color': '#00B1FF',
+            'line-width': 4
+          }
+        };
+        var polygon = so.map.addLayer(polygonObj);
+        so.previousPolygons.push({
+          polygonName: 'polygon' + so.layerCounter,
+          polygonObj: polygonObj
+        });
+      }
+    };
+    xhr.send();
+  }
+
+  /*
+  var visibleMarkerTypes = [];
+  if (ui.markers) {
+    var glHidden = (options.markers && options.markers.display === false);
+
+    for (var i = 0; i < ui.markers.length; i++) {
+      if (!ui.markers[i].location) {
+        continue;
+      }
+      if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === false) {
+        continue;
+      }
+      if (glHidden) {
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === true) {
+        } else {
+          continue;
+        }
+      }
+      visibleMarkerTypes.push(ui.markers[i].type);
+    }
+  }
+
+  if (so.displayOptions && so.displayOptions.showPath && route.fragments) {
+    var first = true;
+
+    for (var i = 0; i < route.fragments.length; i++) {
+      if (!route.fragments[i].origin || !visibleMarkerTypes.includes(route.fragments[i].origin.type)
+          || !route.fragments[i].destination || !visibleMarkerTypes.includes(route.fragments[i].destination.type)) {
+        continue;
+      }
+
+      first = showDirections.bind(so)(route.fragments[i].path, first);
+
+      if (route.fragments[i].path && route.fragments[i].path.point) {
+        var p = new Array();
+        for (var j = 0; j < route.fragments[i].path.point.length; j++) {
+          p.push([route.fragments[i].path.point[j].lng, route.fragments[i].path.point[j].lat]);
+        }
+        if (p.length < 3) {
+          p.push(p[0]);
+        }
+
+        ++so.layerCounter;
+        var polygonObj = {
+          id: 'polygon' + so.layerCounter,
+          type: 'line',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              geometry: {
+                type: 'Polygon',
+                coordinates: [p]
+              }
+            }
+          },
+          layout: {},
+          paint: {
+            'line-color': '#1967D2',
+            'line-width': 6
+          }
+        };
+        var polygon = so.map.addLayer(polygonObj);
+        so.previousPolygons.push({
+          polygonName: 'polygon' + so.layerCounter,
+          polygonObj: polygonObj
+        });
+
+        ++so.layerCounter;
+        var polygonObj = {
+          id: 'polygon' + so.layerCounter,
+          type: 'line',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              geometry: {
+                type: 'Polygon',
+                coordinates: [p]
+              }
+            }
+          },
+          layout: {},
+          paint: {
+            'line-color': '#00B1FF',
+            'line-width': 4
+          }
+        };
+        var polygon = so.map.addLayer(polygonObj);
+        so.previousPolygons.push({
+          polygonName: 'polygon' + so.layerCounter,
+          polygonObj: polygonObj
+        });
+      }
+    }
+  }*/
+
+  if (so.displayOptions && (so.displayOptions.showBuildingShape || so.displayOptions.showUnitShape) && ui.building_shape && ui.building_shape.point) {
+    var p = new Array();
+    for (var j = 0; j < ui.building_shape.point.length; j++) {
+      so.bounds.extend([ui.building_shape.point[j].lng, ui.building_shape.point[j].lat]);
+    }
+  }
+
+  var hasUnitShape = false;
+  if (so.displayOptions && so.displayOptions.showUnitShape && route.fragments) {
+    var unitPolygonToExclude = {};
+    for (var i = 0; i < route.fragments.length; i++) {
+      if (route.fragments[i].destination && route.fragments[i].destination.type === 'UNIT') {
+        if (route.fragments[i].destination.data && route.fragments[i].destination.data.shape) {
+          var p = new Array();
+          for (var j = 0; j < route.fragments[i].destination.data.shape.point.length; j++) {
+            p.push([route.fragments[i].destination.data.shape.point[j].lng, route.fragments[i].destination.data.shape.point[j].lat]);
+          }
+          if (route.fragments[i].destination.data.shape.point.length > 0) {
+            p.push([route.fragments[i].destination.data.shape.point[0].lng, route.fragments[i].destination.data.shape.point[0].lat]);
+          }
+          var elevation = 0;
+          var wallHeight = 0;
+          var floor = 0;
+          if (route.fragments[i].destination.location.elevation !== undefined) {
+            elevation = route.fragments[i].destination.location.elevation;
+          } else if (route.fragments[i].destination.elevation !== undefined) {
+            elevation = route.fragments[i].destination.elevation;
+          }
+          if (route.fragments[i].destination.data.wall_height !== undefined) {
+            wallHeight = route.fragments[i].destination.data.wall_height;
+          }
+          if (route.fragments[i].destination.data.floor !== undefined) {
+            floor = route.fragments[i].destination.data.floor;
+          }
+          if (!dontUpdateSelectedFloor) {
+            so.selectedFloor = floor;
+          }
+          if (wallHeight == 0) {
+            wallHeight = 3;
+          }
+          if (elevation == 0) {
+            elevation = floor == 0 ? 0 : ((floor - 1) * 3);
+          }
+          if (p.length >= 4 && floor + "" === so.selectedFloor + "") {
+            unitPolygonToExclude = {
+              elevation: Number.parseFloat(elevation).toFixed(0),
+              coordinates: [p]
+            };
+            hasUnitShape = true;
+            ++so.layerCounter;
+            var polygonObj = {
+              id: 'polygon' + so.layerCounter,
+              type: 'fill',
+              source: {
+                type: 'geojson',
+                data: {
+                  type: 'Feature',
+                  geometry: {
+                    type: 'Polygon',
+                    coordinates: [p]
+                  }
+                }
+              },
+              layout: {},
+              paint: {
+                'fill-color': '#0CB1A1',
+                'fill-opacity': 0.5
+              }
+            };
+            var polygon = so.map.addLayer(polygonObj);
+            so.previousPolygons.push({
+              polygonName: 'polygon' + so.layerCounter,
+              polygonObj: polygonObj
+            });
+
+            ++so.layerCounter;
+            var polygonObjOutline = {
+              id: 'polygon' + so.layerCounter,
+              type: 'line',
+              source: {
+                type: 'geojson',
+                data: {
+                  type: 'Feature',
+                  geometry: {
+                    type: 'Polygon',
+                    coordinates: [p]
+                  }
+                }
+              },
+              layout: {},
+              paint: {
+                'line-color': '#000',
+                'line-width': 1
+              }
+            };
+            var polygon = so.map.addLayer(polygonObjOutline);
+            so.previousPolygons.push({
+              polygonName: 'polygon' + so.layerCounter,
+              polygonObj: polygonObjOutline
+            });
+
+            ++so.layerCounter;
+            var polygonObjSymbol = {
+              id: 'polygon' + so.layerCounter,
+              type: 'symbol',
+              source: {
+                type: 'geojson',
+                data: {
+                  type: 'Feature',
+                  properties: {
+                    description: route.fragments[i].destination.data.text
+                  },
+                  geometry: {
+                    type: 'Polygon',
+                    coordinates: [p]
+                  }
+                }
+              },
+              layout: {
+                'text-field': ['get', 'description'],
+                'text-size': [
+                  'interpolate', ['linear'], ['zoom'],
+                      14, 1,
+                      16, 4,
+                      18,12,
+                      24,24
+                ],
+              }
+            };
+            var polygon = so.map.addLayer(polygonObjSymbol);
+            so.previousPolygons.push({
+              polygonName: 'polygon' + so.layerCounter,
+              polygonObj: polygonObjSymbol
+            });
+          }
+        }
+      }
+    }
+
+    getBuildingUnitPolygons.bind(so)(ui.address, unitPolygonToExclude, (unitPolygonsToDraw) => {
+      var features = [];
+      var minFloor = 100;
+      var maxFloor = 0;
+
+      for (var i = 0; i < unitPolygonsToDraw.length; i++) {
+        minFloor = Math.min(unitPolygonsToDraw[i].floor, minFloor);
+        maxFloor = Math.max(unitPolygonsToDraw[i].floor, maxFloor);
+        if (unitPolygonsToDraw[i].floor + "" === so.selectedFloor + "") {
+          var feature = {
+            type: "Feature",
+            properties: {
+              elevation: unitPolygonsToDraw[i].elevation,
+              height: unitPolygonsToDraw[i].height,
+              description: unitPolygonsToDraw[i].description
+            },
+            geometry: {
+              type: "Polygon",
+              coordinates: [unitPolygonsToDraw[i].coordinates]
+            }
+          };
+          features.push(feature);
+        }
+      }
+
+      so.ui.cardFloor.innerHTML = "";
+      if (minFloor < maxFloor) {
+        so.ui.cardFloor.style.display = "block";
+        for (var i = minFloor; i <= maxFloor; i++) {
+          var c = createDivWithClassAndId("floor-picker");
+          c.setAttribute("data-floor", i);
+          c.innerHTML = i;
+          so.ui.cardFloor.appendChild(c);
+
+          c.addEventListener('click', function() {
+            so.selectedFloor = this.getAttribute("data-floor");
+            so.displayDataFor(ix, true);
+          });
+        }
+      }
+
+      var poiGeoJson = {
+        type: "FeatureCollection",
+        features: features
+      }
+
+      ++so.layerCounter;
+      var polygonObj = {
+        id: 'polygon' + so.layerCounter,
+        type: 'fill',
+        source: {
+          type: 'geojson',
+          data: poiGeoJson
+        },
+        layout: {},
+        paint: {
+          'fill-color': '#ffffff',
+          'fill-opacity': 1.0
+        }
+      };
+      var polygon = so.map.addLayer(polygonObj);
+      so.previousPolygons.push({
+        polygonName: 'polygon' + so.layerCounter,
+        polygonObj: polygonObj
+      });
+
+      ++so.layerCounter;
+      var polygonObj = {
+        id: 'polygon' + so.layerCounter,
+        type: 'line',
+        source: {
+          type: 'geojson',
+          data: poiGeoJson
+        },
+        layout: {},
+        paint: {
+          'line-color': '#000',
+          'line-width': 1
+        }
+      };
+      var polygon = so.map.addLayer(polygonObj);
+      so.previousPolygons.push({
+        polygonName: 'polygon' + so.layerCounter,
+        polygonObj: polygonObj
+      });
+
+      ++so.layerCounter;
+      var symbolObj = {
+        id: 'polygon' + so.layerCounter,
+        type: 'symbol',
+        source: {
+          type: 'geojson',
+          data: poiGeoJson
+        },
+        layout: {
+          'text-field': ['get', 'description'],
+          'text-size': [
+            'interpolate', ['linear'], ['zoom'],
+                14, 1,
+                16, 4,
+                18,12,
+                24,24
+
+          ],
+        }
+      };
+      var symbol = so.map.addLayer(symbolObj);
+      so.previousPolygons.push({
+        polygonName: 'polygon' + so.layerCounter,
+        polygonObj: symbolObj
+      });
+    });
+  }
+
+  if (so.displayOptions && so.displayOptions.showBuildingShape && ui.building_shape && ui.building_shape.point) {
+    var p = new Array();
+    for (var j = 0; j < ui.building_shape.point.length; j++) {
+      p.push([ui.building_shape.point[j].lng, ui.building_shape.point[j].lat]);
+    }
+    if (ui.building_shape.point.length > 0) {
+      p.push([ui.building_shape.point[0].lng, ui.building_shape.point[0].lat]);
+    }
+    if (p.length >= 4) {
+      ++so.layerCounter;
+      var polygonObj = {
+        id: 'polygon' + so.layerCounter,
+        type: 'fill',
+        source: {
+          type: 'geojson',
+          data: {
+            type: 'Feature',
+            geometry: {
+              type: 'Polygon',
+              coordinates: [p]
+            }
+          }
+        },
+        layout: {},
+        paint: {
+          'fill-color': '#0CB1A1',
+          'fill-opacity': 0.1
+        }
+      };
+      var polygon = so.map.addLayer(polygonObj);
+      so.previousPolygons.push({
+        polygonName: 'polygon' + so.layerCounter,
+        polygonObj: polygonObj
+      });
+    }
+  }
+
+  if (so.previousMarker && so.previousMarker.length > 0) {
+    for (var i = 0; i < so.previousMarker.length; i++) {
+      so.previousMarker[i].getElement().parentNode.removeChild(so.previousMarker[i].getElement());
+    }
+    so.previousMarker = [];
+  }
+
+  for (var i = 0; i < so.markers.length; i++) {
+    if (i === so.currentIx && hasUnitShape) {
+      if (so.markers[i]) {
+        so.markers[i].getElement().style.visibility = "hidden";
+      }
+    } else {
+      if (so.markers[i]) {
+        so.markers[i].getElement().style.visibility = "visible";
+      }
+    }
+  }
+
+  if (ui.markers) {
+    var markers = [];
+    var glHidden = (options.markers && options.markers.display === false);
+
+    for (var i = 0; i < ui.markers.length; i++) {
+      if (!ui.markers[i].location) {
+        continue;
+      }
+      if (ui.markers[i].type === 'UNIT') {
+        continue;
+      }
+      if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === false) {
+        continue;
+      }
+      if (glHidden) {
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === true) {
+        } else {
+          continue;
+        }
+      }
+
+      if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].tooltip) {
+        ui.markers[i].note = options.markers[ui.markers[i].type.toLowerCase()].tooltip;
+      }
+
+      var markerText = ui.markers[i].text;
+      if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].text) {
+        markerText = options.markers[ui.markers[i].type.toLowerCase()].text;
+      }
+
+      var markerUrl = null;
+      if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].iconUrl) {
+        markerUrl = options.markers[ui.markers[i].type.toLowerCase()].iconUrl;
+      }
+
+      var markerEl = createMarker(so.iconConfig[ui.markers[i].type], markerUrl, markerText);
+      marker = new mapboxgl.Marker(markerEl, {anchor: 'bottom'})
+        .setLngLat([ui.markers[i].location.lng, ui.markers[i].location.lat])
+        .addTo(so.map);
+      so.bounds.extend([ui.markers[i].location.lng, ui.markers[i].location.lat]);
+      markers.push(marker);
+
+      if (ui.markers[i].note) {
+        var clickFn = (markerContent) => { return (e) => {
+            e.stopPropagation();
+            var markerStr = '<div class="popup"><div>' + markerContent.note + '</div>';
+            if (markerContent.image_urls) {
+              markerStr += '<div class="">';
+              for (var j = 0; j < markerContent.image_urls.length; j++) {
+                markerStr += '<div class="marker-image-preview-container"><img class="marker-image-preview" src="' + markerContent.image_urls[j] + '"></div>';
+              }
+              markerStr += '</div>';
+            }
+            markerStr += '</div>';
+            new mapboxgl.Popup()
+              .setLngLat([markerContent.location.lng, markerContent.location.lat])
+              .setHTML(markerStr)
+              .addTo(so.map);
+          };
+        };
+        marker.getElement().addEventListener('click', clickFn(ui.markers[i]));
+      }
+    }
+    so.previousMarker = markers;
+  }
+
+  so.displayPOIFor(ix);
+}
+
+BeansMapbox.prototype.displayPOIFor = function(ix) {
+  var so = this;
+  var data = so.searchResults[ix];
+  var options = so.options[ix];
+
+  var pois = getPOIs.bind(so)(ix);
+  renderPOIsCard.bind(so)(pois);
+
+  for (var i = 0; i < pois.length; i++) {
+    var markerEl = pois[i].isMiniMarker ? createMiniMarker(so.iconConfig[pois[i].keyName], pois[i].markerUrl, '') : createMarker(so.iconConfig[pois[i].keyName], pois[i].markerUrl, '');
+    var marker = new mapboxgl.Marker(markerEl, {anchor: 'bottom'})
+      .setLngLat([pois[i].location.lng, pois[i].location.lat])
+      .addTo(so.map);
+    so.previousCustomMarker.push(marker);
+
+    if (options.repositionToAmenities) {
+      so.bounds.extend([pois[i].location.lng, pois[i].location.lat]);
+      so.ui.beansRow.style.display = "none";
+    } else {
+      so.ui.beansRow.style.display = "flex";
+    }
+
+    if (pois[i].text) {
+      var clickFn = (markerContent) => { return (e) => {
+          e.stopPropagation();
+          var markerStr = '<div class="popup"><div>' + markerContent.text + '</div>';
+          if (markerContent.image_urls) {
+            markerStr += '<div class="">';
+            for (var j = 0; j < markerContent.image_urls.length; j++) {
+              markerStr += '<div class="marker-image-preview-container"><img class="marker-image-preview" src="' + markerContent.image_urls[j] + '"></div>';
+            }
+            markerStr += '</div>';
+          }
+          markerStr += '</div>';
+          new mapboxgl.Popup()
+            .setLngLat([markerContent.location.lng, markerContent.location.lat])
+            .setHTML(markerStr)
+            .addTo(so.map);
+        };
+      };
+      marker.getElement().addEventListener('click', clickFn(pois[i]));
+    }
+  }
+}
+
+BeansMapbox.prototype.search = function(address, unit, options, ix) {
+  var so = this;
+  so.searchResults.push({});
+  so.markers.push(null);
+  so.options.push({});
+  so.options[ix] = options;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', serverUrl + '/enterprise/v2/search/beans?address=' + encodeURIComponent(address) + '&unit=' + encodeURIComponent(unit));
+  xhr.setRequestHeader('Authorization', 'Basic ' + btoa(so.apiKey));
+  xhr.setRequestHeader('X-Beansai-Include-Points-Of-Interest', 'true');
+  xhr.setRequestHeader('X-Beansai-Include-Ui-Data', 'true');
+  xhr.setRequestHeader('X-Beansai-Include-Notes-And-Markers', 'true');
+  xhr.setRequestHeader('X-Beansai-Include-Generated-Route', 'true');
+  xhr.setRequestHeader('search-sdk-profile', 'consumer');
+  xhr.setRequestHeader('format', 'proto');
+  xhr.onreadystatechange = function () {
+    var DONE = 4; // readyState 4 means the request is done.
+    var OK = 200; // status 200 is a successful return.
+    if (xhr.readyState !== DONE || xhr.status !== OK) {
+      return;
+    }
+
+    var data = JSON.parse(xhr.responseText);
+    if (!data.data) {
+      failure.bind(so)();
+      return;
+    }
+    data = data.data;
+    so.searchResults[ix] = data;
+
+    if (!data.routes || data.routes.length == 0) {
+      return;
+    }
+    so.hasSearchResult = true;
+    so.ui.cardResult.classList.add('active');
+    so.ui.cardBeans.classList.remove('big-card');
+    so.ui.cardBeans.classList.add('small-card');
+    so.bigCard = false;
+
+    var route = data.routes[0];
+    var ui = route.route_ui_data;
+
+    if (!ui.address) {
+      failure.bind(so)();
+      return;
+    }
+
+    if (!so.bounds) {
+      so.bounds = new mapboxgl.LngLatBounds();
+    }
+
+    if (ui.markers) {
+      var glHidden = (options.markers && options.markers.display === false);
+      var backupBounds = new mapboxgl.LngLatBounds();
+
+      for (var i = 0; i < ui.markers.length; i++) {
+        if (!ui.markers[i].location) {
+          continue;
+        }
+        backupBounds.extend([ui.markers[i].location.lng, ui.markers[i].location.lat]);
+        if (ui.markers[i].type !== "UNIT") {
+          continue;
+        }
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === false) {
+          continue;
+        }
+        if (glHidden) {
+          if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === true) {
+          } else {
+            continue;
+          }
+        }
+
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].tooltip) {
+          ui.markers[i].note = options.markers[ui.markers[i].type.toLowerCase()].tooltip;
+        }
+
+        var markerText = ui.markers[i].text;
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].text) {
+          markerText = options.markers[ui.markers[i].type.toLowerCase()].text;
+        }
+
+        var markerUrl = null;
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].iconUrl) {
+          markerUrl = options.markers[ui.markers[i].type.toLowerCase()].iconUrl;
+        }
+
+        var markerEl = createMarker(so.iconConfig[ui.markers[i].type], markerUrl, markerText);
+        marker = new mapboxgl.Marker(markerEl, {anchor: 'bottom'})
+          .setLngLat([ui.markers[i].location.lng, ui.markers[i].location.lat])
+          .addTo(so.map);
+
+        so.bounds.extend([ui.markers[i].location.lng, ui.markers[i].location.lat]);
+        marker.getElement().addEventListener('click', () => {
+          so.currentIx = ix;
+          so.displayDataFor(ix);
+          so.map.flyTo({center: so.markers[ix].getLngLat()});
+        });
+        so.markers[ix] = marker;
+      }
+    }
+
+    if (ix === so.currentIx) {
+      so.displayDataFor(ix);
+    }
+
+    if (!so.bounds.getSouthWest()) {
+      so.bounds = backupBounds;
+    }
+
+    if (!options.disableReposition) {
+      if (options.tiles && options.tiles.display === false) {
+        so.map.fitBounds(so.bounds, {
+          linear: true,
+          duration: 0,
+          // maxZoom: so.ui.divWidth < 500 ? 19 : 18,
+          padding: {
+            top: so.ui.divWidth < 500 ? 25 : 100,
+            left: so.ui.divWidth < 500 ? 25 : 100,
+            right: so.ui.divWidth < 500 ? 25 : 100,
+            bottom: so.ui.divWidth < 500 ? 25 : 100
+          }
+        });
+      } else {
+        so.map.fitBounds(so.bounds, {
+          linear: true,
+          duration: 0,
+          // maxZoom: so.ui.divWidth < 500 ? 19 : 18,
+          padding: {
+            top: so.ui.divWidth < 500 ? 25 : 100,
+            left: so.ui.divWidth < 500 ? 25 : (100 + Math.min(350, so.ui.divWidth / 3)),
+            right: so.ui.divWidth < 500 ? 25 : 100,
+            bottom: so.ui.divWidth < 500 ? 265 : 100
+          }
+        });
+      }
+    }
+
+    if (options.success) {
+      options.success();
+    }
+  };
+  xhr.send();
+}
+
+var BeansEsri = function() {
+  this.idToken = "";
+  this.apiKey = "";
+
+  this.map = null;
+  this.mapId = "";
+  this.mapGraphics = null;
+  this.isInitMap = false;
+  this.previousStyleName = "";
+
+  this.navigateLatLng = null;
+
+  this.hasSearchResult = false;
+  this.layerCounter = 0;
+  this.previousPolygons = [];
+  this.previousObjs = [];
+  this.markers = [];
+  this.previousMarker = [];
+  this.previousCustomMarker = [];
+  this.mapStyle = "";
+  this.showDistances = false;
+  this.bigCard = false;
+  this.iconConfig = {};
+
+  this.touchstartX = 0;
+  this.touchstartY = 0;
+  this.touchendX = 0;
+  this.touchendY = 0;
+
+  this.navigateClickListenerObj = null;
+  this.navOptions = null;
+  this.displayOptions = null;
+
+  this.searchResults = [];
+  this.options = [];
+  this.currentIx = 0;
+  this.bounds = null;
+
+  this.ui = {
+    divWidth: 0,
+    divHeight: 0,
+    beansButtonbar: null,
+    buttonSatellite : null,
+    buttonMylocation : null,
+    cardBeans : null,
+    cardResult : null,
+    buttonNavigate : null,
+    textContainerLine1 : null,
+    textLine1 : null,
+    textLine2 : null,
+    textLine3 : null,
+    textLine4 : null,
+    beansRow : null,
+    beansCol1 : null,
+    beansTile1 : null,
+    beansTileIconContainer1 : null,
+    beansTileIcon1 : null,
+    beansTileText1 : null,
+    beansCol2 : null,
+    beansTile2 : null,
+    beansTileIconContainer2 : null,
+    beansTileIcon2 : null,
+    beansTileText2 : null,
+    beansCol3 : null,
+    beansTile3 : null,
+    beansTileIconContainer3 : null,
+    beansTileIcon3 : null,
+    beansTileText3 : null,
+    cardFacilities : null,
+    cardLinks : null
+  };
+}
+
+BeansEsri.prototype.prepareForSearch = function(apiKey, div, callback) {
+  var so = this;
+
+  so.apiKey = apiKey;
+
+  createUICards.bind(so)(div, "BeansEsri");
+  so.initMap(callback);
+
+  so.ui.buttonSatellite.addEventListener('click', function() {
+    so.map.basemap = so.map.basemap.title == "Imagery Hybrid" ? "arcgis-light-gray" : "arcgis-imagery";
+  });
+  so.ui.buttonMylocation.addEventListener('click', function() {
+    if (globalInstance.userLocation != null) {
+      var position = {
+        coords: {
+          longitude: globalInstance.userLocation.lng,
+          latitude: globalInstance.userLocation.lat
+        }
+      };
+      showLocation(position);
+
+      var bounds = so.createBounds();
+      so.extendBounds(bounds, [globalInstance.userLocation.lng - 0.001, globalInstance.userLocation.lat - 0.001]);
+      so.extendBounds(bounds, [globalInstance.userLocation.lng + 0.001, globalInstance.userLocation.lat + 0.001]);
+      require(
+        [
+          'esri/geometry/Extent'
+        ],
+        function (Extent) {
+          so.mapView.extent = new Extent(bounds).expand(10);
+        }
+      );
+    }
+  });
+}
+
+BeansEsri.prototype.render = function(div, apiKey, addressAndUnitWithOptions) {
+  var so = this;
+
+  so.resetState();
+
+  getIconConfig.bind(so)(() => {
+    for (var i = 0; i < addressAndUnitWithOptions.length; i++) {
+      so.search(
+        addressAndUnitWithOptions[i].address ? addressAndUnitWithOptions[i].address : '',
+        addressAndUnitWithOptions[i].unit ? addressAndUnitWithOptions[i].unit : '',
+        addressAndUnitWithOptions[i].options ? addressAndUnitWithOptions[i].options : {},
+        i);
+    }
+  });
+}
+
+BeansEsri.prototype.initMap = function(callback) {
+  var so = this;
+
+  if (so.isInitMap) {
+    return;
+  }
+  so.isInitMap = true;
+
+  if (!so.displayOptions || !so.displayOptions.initialPosition || !so.displayOptions.initialPosition.address) {
+    so.initMapAfterGeocode(callback);
+  } else {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', serverUrl + '/enterprise/v2/search/beans?address=' + encodeURIComponent(so.displayOptions.initialPosition.address));
+    xhr.setRequestHeader('Authorization', 'Basic ' + btoa(so.apiKey));
+    xhr.setRequestHeader('search-sdk-profile', 'consumer');
+    xhr.setRequestHeader('format', 'proto');
+    xhr.onreadystatechange = function () {
+      var DONE = 4; // readyState 4 means the request is done.
+      var OK = 200; // status 200 is a successful return.
+      if (xhr.readyState !== DONE || xhr.status !== OK) {
+        return;
+      }
+      var data = JSON.parse(xhr.responseText);
+      if (!data.data) {
+        failure.bind(so)();
+        return;
+      }
+      data = data.data;
+      if (!data.routes || data.routes.length == 0) {
+        failure();
+        return;
+      }
+      so.displayOptions.initialPosition.lat = data.routes[0].navigate_to.lat;
+      so.displayOptions.initialPosition.lng = data.routes[0].navigate_to.lng;
+      so.initMapAfterGeocode(callback);
+    };
+    xhr.send();
+  }
+}
+
+BeansEsri.prototype.initMapAfterGeocode = function(callback) {
+  var so = this;
+
+  require([
+        "esri/config",
+        "esri/Map",
+        "esri/views/SceneView",
+        "esri/Graphic",
+        "esri/layers/GraphicsLayer",
+        "esri/widgets/NavigationToggle",
+        "esri/widgets/Daylight"
+    ],
+    function(esriConfig, Map, SceneView, Graphic, GraphicsLayer, NavigationToggle, Daylight) {
+      esriConfig.apiKey = "AAPKf6094b17a4fe445babf1f4d708050cabRaUSdQCe32l6aLz9oPg9J4seE5dXRrZQbO8Vyb2dB9buNmgaFUYX_B3fg51qJVxx";
+      so.map = new Map({
+        basemap: "arcgis-light-gray", //Basemap layer service
+        // ground: "world-elevation", //Elevation service
+      });
+      so.mapView = new SceneView({
+        container: so.mapId,
+        map: so.map,
+        camera: {
+          position: {
+            x: so.displayOptions.initialPosition ? so.displayOptions.initialPosition.lng : -122.02569871437598, //Longitude
+            y: so.displayOptions.initialPosition ? so.displayOptions.initialPosition.lat : 37.351214997775344, //Latitude
+            z: 600 //Meters
+          },
+          tilt: 0
+        }
+      });
+      // map.ground.layers.forEach((layer) => {
+      //         layer.visible = ev.target.checked;
+      //       });
+      so.mapView.ui.components = (["attribution"]);
+
+      so.mapGraphics = new GraphicsLayer();
+      so.map.add(so.mapGraphics);
+
+      so.mapNav = new NavigationToggle({
+        viewModel: {
+          view: so.mapView
+        },
+        layout: "horizontal"
+      });
+
+      if (callback) {
+        callback();
+      }
+    }
+  );
+
+  if (!so.navOptions || !so.navOptions.userLocation || so.navOptions.hideNavigateButton) {
+    // Hide nav button
+    if (so.ui.buttonNavigate) {
+      so.ui.buttonNavigate.style.display = "none";
+    }
+  }
+
+  // marker.getElement().addEventListener('click', () => {
+  //   so.currentIx = ix;
+  //   so.displayDataFor(ix);
+  //   so.map.flyTo({center: so.markers[ix].getLngLat()});
+  // });
+  // so.markers[ix] = marker;
+  so.ui.buttonShadow.addEventListener('click', () => {
+    if (so.isShadowEnabled) {
+      so.isShadowEnabled = false;
+      so.displayDataFor(so.currentIx);
+      so.mapView.ui.remove(so.mapShadowWidget);
+      so.mapView.environment.lighting = {
+        directShadowsEnabled: false,
+        ambientOcclusionEnabled: false,
+        type: "sun"
+      };
+    } else {
+      so.isShadowEnabled = true;
+      so.displayDataFor(so.currentIx);
+      require([
+            "esri/widgets/Daylight"
+        ],
+        function(Daylight) {
+          so.mapShadowWidget = new Daylight({
+            view: so.mapView
+          });
+          so.mapView.ui.add(so.mapShadowWidget, "bottom-right");
+        }
+      );
+    }
+  });
+
+  geolocate(
+    so.navOptions,
+    function(geolocation) {
+      /*var markerEl = document.createElement('div');
+      markerEl.className = 'marker-mylocation';
+      var userMarker = new mapboxgl.Marker(markerEl)
+        .setLngLat([geolocation.lng, geolocation.lat])
+        .addTo(so.map);
+      if (so.navigateLatLng) {
+        so.ui.buttonNavigate.style.display = "block";
+        so.ui.buttonNavigate.removeEventListener('click', so.navigateClickListenerObj);
+        so.ui.buttonNavigate.addEventListener('click', so.navigateClickListenerObj);
+      }
+      return userMarker;*/
+    },
+    function(userMarker, geolocation) {
+      //userMarker.addTo(so.map);
+      //userMarker.setLngLat([geolocation.lng, geolocation.lat]);
+    }
+  );
+};
+
+BeansEsri.prototype.createBounds = function() {
+  return {
+    xmin : 180.0,
+    xmax : -180.0,
+    ymin : 180.0,
+    ymax : -180.0
+  };
+}
+
+BeansEsri.prototype.extendBounds = function(bounds, lngLat) {
+  bounds.xmin = Math.min(bounds.xmin, lngLat[0]);
+  bounds.xmax = Math.max(bounds.xmax, lngLat[0]);
+  bounds.ymin = Math.min(bounds.ymin, lngLat[1]);
+  bounds.ymax = Math.max(bounds.ymax, lngLat[1]);
+}
+
+BeansEsri.prototype.resetState = function() {
+  var so = this;
+
+  so.searchResults = [];
+  so.options = [];
+  so.bounds = null;
+  so.currentIx = 0;
+
+  resetUICards.bind(so)();
+
+  if (so.mapGraphics) {
+    so.mapGraphics.removeAll();
+
+    if (so.markers && so.markers.length > 0) {
+      for (var i = 0; i < so.markers.length; i++) {
+        if (so.markers[i]) {
+          so.mapGraphics.remove(so.markers[i]);
+        }
+      }
+      so.markers = [];
+    }
+
+    if (so.previousMarker && so.previousMarker.length > 0) {
+      for (var i = 0; i < so.previousMarker.length; i++) {
+        if (so.previousMarker[i]) {
+          so.mapGraphics.remove(so.previousMarker[i]);
+        }
+      }
+      so.previousMarker = [];
+    }
+
+    if (so.previousCustomMarker && so.previousCustomMarker.length > 0) {
+      for (var i = 0; i < so.previousCustomMarker.length; i++) {
+        if (so.previousCustomMarker[i]) {
+          so.mapGraphics.remove(so.previousCustomMarker[i]);
+        }
+      }
+      so.previousCustomMarker = [];
+    }
+
+    if (so.previousPolygons) {
+      for (var i = 0; i < so.previousPolygons.length; i++) {
+        so.map.remove(so.previousPolygons[i]);
+      }
+      so.previousPolygons = [];
+    }
+  }
+}
+
+BeansEsri.prototype.displayDataFor = function(ix) {
+  var so = this;
+  var data = so.searchResults[ix];
+
+  fillUICards.bind(so)(ix);
+
+  if (!data.routes || data.routes.length == 0) {
+    return;
+  }
+
+  var options = so.options[ix];
+  var route = data.routes[0];
+  var ui = route.route_ui_data;
+
+  if (options.onClick) {
+    options.callback(ix);
+  } else if (options.onClickData) {
+    showClickData.bind(so)(ix);
+  }
+
+  if (!so.bounds) {
+    so.bounds = so.createBounds();
+  }
+
+  if (so.previousPolygons) {
+    for (var i = 0; i < so.previousPolygons.length; i++) {
+      so.mapGraphics.remove(so.previousPolygons[i]);
+    }
+    so.previousPolygons = [];
+  }
+
+  if (so.previousObjs) {
+    for (var i = 0; i < so.previousObjs.length; i++) {
+      so.map.remove(so.previousObjs[i]);
+    }
+    so.previousObjs = [];
+  }
+
+  var markerTypesVisible = [];
+  var markerLatLngsVisible = [];
+  var markerNotes = {};
+  if (ui.markers) {
+    var glHidden = (options.markers && options.markers.display === false);
+
+    for (var i = 0; i < ui.markers.length; i++) {
+      if (!ui.markers[i].location) {
+        continue;
+      }
+      if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === false) {
+        continue;
+      }
+      if (glHidden) {
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === true) {
+        } else {
+          continue;
+        }
+      }
+      markerTypesVisible.push(ui.markers[i].type);
+      markerLatLngsVisible.push(ui.markers[i].location);
+      if (ui.markers[i].note) {
+        markerNotes[ui.markers[i].type] = ui.markers[i].note;
+      }
+    }
+  }
+  var pois = getPOIs.bind(so)(ix);
+  if (pois.length > 0) {
+    for (var i = 0; i < pois.length; i++) {
+      markerTypesVisible.push(pois[i].keyName);
+      markerLatLngsVisible.push(pois[i].location);
+    }
+  }
+
+  if (so.displayOptions && so.displayOptions.showPath && route.fragments) {
+    // Sort visible markers
+    var pathSeq = so.displayOptions && so.displayOptions.path ? so.displayOptions.path : ['PARKING', 'ENTRANCE', 'ELEVATOR', 'STAIR', 'UNIT'];
+    // Reduce path sequence based on visible markers
+    var seqTypesVisible = [];
+    var seqLatLngsVisible = [];
+    for (var i = 0; i < pathSeq.length; i++) {
+      var tix = markerTypesVisible.indexOf(pathSeq[i]);
+      if (tix !== -1) {
+        seqTypesVisible.push(markerTypesVisible[tix]);
+        seqLatLngsVisible.push(markerLatLngsVisible[tix]);
+      }
+    }
+    // Now for each pathSeqVisibleMarkerTypes[i] and pathSeqVisibleMarkerTypes[i+1], we either have the route or we need to calculate
+    var key = '';
+    for (var s = 0; s < seqTypesVisible.length; s++) {
+      var type1 = seqTypesVisible[s];
+      if (type1 === 'KEYBOX') {
+        type1 = 'LOCKBOX';
+      }
+      var latLng1 = seqLatLngsVisible[s];
+
+      if (key !== '') {
+        key = key + ';';
+      }
+
+      key = key + latLng1.lat + ',' + latLng1.lng + ',' + (latLng1.elevation ? latLng1.elevation : '0.0') + ',' + type1;
+    }
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', serverUrl + '/enterprise/v2/search/path?waypoints=' + encodeURIComponent(key));
+    xhr.setRequestHeader('Authorization', 'Basic ' + btoa(so.apiKey));
+    xhr.setRequestHeader('format', 'proto');
+    xhr.onreadystatechange = function () {
+      var DONE = 4; // readyState 4 means the request is done.
+      var OK = 200; // status 200 is a successful return.
+      if (xhr.readyState !== DONE || xhr.status !== OK) {
+        return;
+      }
+      var data = JSON.parse(xhr.responseText);
+      if (!data.data) {
+        return;
+      }
+      data = data.data;
+      showDirections.bind(so)(data, true, markerNotes);
+
+      if (data && data.point) {
+        var p = new Array();
+        for (var j = 0; j < data.point.length; j++) {
+          p.push([data.point[j].lng, data.point[j].lat, data.point[j].elevation ? data.point[j].elevation : 0.0]);
+        }
+
+        var s = 0.5;
+        var height = s;
+        var color = "#1967D2";  // '#00B1FF'
+
+        var geojson = {
+          type: 'Feature',
+          geometry: {
+            type: 'LineString',
+            coordinates: p
+          }
+        };
+        const blob = new Blob([JSON.stringify(geojson)], {
+          type: "application/json"
+        });
+        const url = URL.createObjectURL(blob);
+        // create new geojson layer using the blob url
+        require([
+              "esri/layers/GeoJSONLayer",
+          ],
+          function(GeoJSONLayer) {
+            const layer = new GeoJSONLayer({
+              url
+            });
+            layer.elevationInfo = {
+              mode: "relative-to-ground",
+              unit: "meters"
+            };
+            layer.renderer = {
+              type: "simple",
+              symbol: {
+                type: "line-3d",
+                symbolLayers: [
+                  {
+                    type: "path",
+                    profile: "quad",  // creates a rectangular shape
+                    width: s,  // path width in meters
+                    height: 0.5,
+                    material: {
+                      color: color
+                    },
+                    cap: "none",
+                    profileRotation: "all"
+                  }
+                ]
+              }
+            };
+            so.map.add(layer);
+            so.previousObjs.push(layer);
+          }
+        );
+      }
+    };
+    xhr.send();
+  }
+
+
+  if (so.displayOptions && (so.displayOptions.showBuildingShape || so.displayOptions.showUnitShape) && ui.building_shape && ui.building_shape.point) {
+    var p = new Array();
+    for (var j = 0; j < ui.building_shape.point.length; j++) {
+      so.extendBounds(so.bounds, [ui.building_shape.point[j].lng, ui.building_shape.point[j].lat]);
+    }
+  }
+
+  if (so.displayOptions && so.displayOptions.showUnitShape && route.fragments) {
+    var unitPolygonToExclude = {};
+    for (var i = 0; i < route.fragments.length; i++) {
+      if (route.fragments[i].destination && route.fragments[i].destination.type === 'UNIT') {
+        if (route.fragments[i].destination.data && route.fragments[i].destination.data.shape) {
+          var p = new Array();
+          for (var j = 0; j < route.fragments[i].destination.data.shape.point.length; j++) {
+            p.push([route.fragments[i].destination.data.shape.point[j].lng, route.fragments[i].destination.data.shape.point[j].lat]);
+          }
+          if (route.fragments[i].destination.data.shape.point.length > 0) {
+            p.push([route.fragments[i].destination.data.shape.point[0].lng, route.fragments[i].destination.data.shape.point[0].lat]);
+          }
+          var elevation = 0;
+          var wallHeight = 0;
+          var floor = 0;
+          if (route.fragments[i].destination.location.elevation !== undefined) {
+            elevation = route.fragments[i].destination.location.elevation;
+          } else if (route.fragments[i].destination.elevation !== undefined) {
+            elevation = route.fragments[i].destination.elevation;
+          }
+          if (route.fragments[i].destination.data.wall_height !== undefined) {
+            wallHeight = route.fragments[i].destination.data.wall_height;
+          }
+          if (route.fragments[i].destination.data.floor !== undefined) {
+            floor = route.fragments[i].destination.data.floor;
+          }
+          if (wallHeight == 0) {
+            wallHeight = 3;
+          }
+          if (elevation == 0) {
+            elevation = floor == 0 ? 0 : ((floor - 1) * 3);
+          }
+          if (p.length >= 4) {
+            var geojson = {
+              type: 'Feature',
+              properties: {
+                elevation: elevation,
+                height: wallHeight
+              },
+              geometry: {
+                type: 'Polygon',
+                coordinates: [p]
+              }
+            };
+            unitPolygonToExclude = {
+              elevation: Number.parseFloat(elevation).toFixed(0),
+              coordinates: [p]
+            };
+            const blob = new Blob([JSON.stringify(geojson)], {
+              type: "application/json"
+            });
+            const url = URL.createObjectURL(blob);
+            // create new geojson layer using the blob url
+            require([
+                  "esri/layers/GeoJSONLayer",
+              ],
+              function(GeoJSONLayer) {
+                const layer = new GeoJSONLayer({
+                  url
+                });
+                layer.elevationInfo = {
+                  mode: "relative-to-ground",
+                  featureExpressionInfo: {
+                    expression: "$feature.elevation"
+                  },
+                  unit: "meters"
+                };
+                layer.renderer = {
+                  type: "simple",
+                  visualVariables: [{
+                    type: "size",
+                    valueExpression: "$feature.height",
+                    valueUnit: "meters"
+                  }],
+                  symbol: {
+                    type: "polygon-3d",
+                    symbolLayers: [
+                      {
+                        type: "extrude",
+                        material: {
+                          color: "rgba(12, 177, 161, 1.0)"
+                        }
+                      }
+                    ]
+                  }
+                };
+                so.map.add(layer);
+                so.previousPolygons.push(layer);
+              }
+            );
+          }
+        }
+      }
+    }
+
+    getBuildingUnitPolygons.bind(so)(ui.address, unitPolygonToExclude, (unitPolygonsToDraw) => {
+      var features = [];
+      for (var i = 0; i < unitPolygonsToDraw.length; i++) {
+        var feature = {
+          type: "Feature",
+          properties: {
+            elevation: unitPolygonsToDraw[i].elevation,
+            height: unitPolygonsToDraw[i].height
+          },
+          geometry: {
+            type: "Polygon",
+            coordinates: [unitPolygonsToDraw[i].coordinates]
+          }
+        };
+        features.push(feature);
+      }
+
+      var poiGeoJson = {
+        type: "FeatureCollection",
+        features: features
+      }
+      const blob = new Blob([JSON.stringify(poiGeoJson)], {
+        type: "application/json"
+      });
+      const url = URL.createObjectURL(blob);
+      // create new geojson layer using the blob url
+      require([
+            "esri/layers/GeoJSONLayer",
+        ],
+        function(GeoJSONLayer) {
+          const layer = new GeoJSONLayer({
+            url
+          });
+          layer.elevationInfo = {
+            mode: "relative-to-ground",
+            featureExpressionInfo: {
+              expression: "$feature.elevation"
+            },
+            unit: "meters"
+          };
+          layer.renderer = {
+            type: "simple",
+            visualVariables: [{
+              type: "size",
+              valueExpression: "$feature.height",
+              valueUnit: "meters"
+            }],
+            symbol: {
+              type: "polygon-3d",
+              symbolLayers: [
+                {
+                  type: "extrude",
+                  material: {
+                    color: so.isShadowEnabled ? "rgba(255, 255, 255, 0.8)" : "rgba(255, 255, 255, 0.2)"
+                  },
+                  edges: {
+                    type: "solid",
+                    size: "3px",
+                    color: [20, 20, 20, 0.1]
+                  }
+                }
+              ]
+            }
+          };
+          so.map.add(layer);
+          so.previousObjs.push(layer);
+        }
+      );
+    });
+  }
+
+  if (so.displayOptions && so.displayOptions.showBuildingShape && ui.building_shape && ui.building_shape.point) {
+    var p = new Array();
+    for (var j = 0; j < ui.building_shape.point.length; j++) {
+      p.push([ui.building_shape.point[j].lng, ui.building_shape.point[j].lat]);
+    }
+    if (ui.building_shape.point.length > 0) {
+      p.push([ui.building_shape.point[0].lng, ui.building_shape.point[0].lat]);
+    }
+
+    var features = [];
+    var feature = {
+      type: "Feature",
+      properties: {
+        elevation: 0,
+        height: 3
+      },
+      geometry: {
+        type: "Polygon",
+        coordinates: [p]
+      }
+    };
+    features.push(feature);
+
+    var poiGeoJson = {
+      type: "FeatureCollection",
+      features: features
+    }
+    const blob = new Blob([JSON.stringify(poiGeoJson)], {
+      type: "application/json"
+    });
+    const url = URL.createObjectURL(blob);
+    // create new geojson layer using the blob url
+    require([
+          "esri/layers/GeoJSONLayer",
+      ],
+      function(GeoJSONLayer) {
+        const layer = new GeoJSONLayer({
+          url
+        });
+        layer.elevationInfo = {
+          mode: "relative-to-ground",
+          featureExpressionInfo: {
+            expression: "$feature.elevation"
+          },
+          unit: "meters"
+        };
+        layer.renderer = {
+          type: "simple",
+          visualVariables: [{
+            type: "size",
+            valueExpression: "$feature.height",
+            valueUnit: "meters"
+          }],
+          symbol: {
+            type: "polygon-3d",
+            symbolLayers: [
+              {
+                type: "extrude",
+                material: {
+                  color: so.isShadowEnabled ? "rgba(255, 255, 255, 0.8)" : "rgba(255, 255, 255, 0.2)"
+                },
+                edges: {
+                  type: "solid",
+                  size: "3px",
+                  color: [20, 20, 20, 0.1]
+                }
+              }
+            ]
+          }
+        };
+        so.map.add(layer);
+        so.previousObjs.push(layer);
+      }
+    );
+  }
+
+  if (so.previousMarker && so.previousMarker.length > 0) {
+    for (var i = 0; i < so.previousMarker.length; i++) {
+      so.mapGraphics.remove(so.previousMarker[i]);
+    }
+    so.previousMarker = [];
+  }
+
+  if (ui.markers) {
+    var markers = [];
+    var glHidden = (options.markers && options.markers.display === false);
+
+    require([
+        "esri/Graphic"
+      ],
+      function(Graphic) {
+        for (var i = 0; i < ui.markers.length; i++) {
+          if (!ui.markers[i].location) {
+            continue;
+          }
+          if (ui.markers[i].type === 'UNIT') {
+            continue;
+          }
+          if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === false) {
+            continue;
+          }
+          if (glHidden) {
+            if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === true) {
+            } else {
+              continue;
+            }
+          }
+
+          if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].tooltip) {
+            ui.markers[i].note = options.markers[ui.markers[i].type.toLowerCase()].tooltip;
+          }
+
+          var markerText = ui.markers[i].text;
+          if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].text) {
+            markerText = options.markers[ui.markers[i].type.toLowerCase()].text;
+          }
+
+          var markerUrl = null;
+          if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].iconUrl) {
+            markerUrl = options.markers[ui.markers[i].type.toLowerCase()].iconUrl;
+          }
+
+          var esriMarkerUrl = "";
+          if (ui.markers[i].type === 'ENTRANCE') {
+            esriMarkerUrl = "https://www.beans.ai/maps/assets/ientrance.svg";
+          }
+          if (ui.markers[i].type === 'ELEVATOR') {
+            esriMarkerUrl = "https://www.beans.ai/maps/assets/ielevator.svg";
+          }
+          if (ui.markers[i].type === 'STAIR') {
+            esriMarkerUrl = "https://www.beans.ai/maps/assets/istair.svg";
+          }
+          if (ui.markers[i].type === 'PARKING') {
+            esriMarkerUrl = "https://www.beans.ai/maps/assets/iparking.svg";
+          }
+          if (ui.markers[i].type === 'UNIT') {
+            esriMarkerUrl = "https://www.beans.ai/maps/assets/iunit.svg";
+          }
+          if (esriMarkerUrl) {
+            var pointGraphic = new Graphic({
+              geometry: {
+                type: "point",
+                longitude: ui.markers[i].location.lng,
+                latitude: ui.markers[i].location.lat,
+                //hasZ: true,
+                //z: 40
+              },
+              symbol: {
+                type: "point-3d",  // autocasts as new PointSymbol3D()
+                symbolLayers: [{
+                  type: "icon",  // autocasts as new IconSymbol3DLayer()
+                  resource: {
+                    href: esriMarkerUrl
+                  },
+                  size: 24
+                }],
+                verticalOffset: {
+                  screenLength: 40,
+                  maxWorldLength: 100,
+                  minWorldLength: 20
+                },
+                callout: {
+                  type: "line", // autocasts as new LineCallout3D()
+                  size: 0.5,
+                  color: '#' + so.iconConfig[ui.markers[i].type].color_code
+                }
+              }
+            });
+            markers.push(pointGraphic);
+            so.mapGraphics.add(pointGraphic);
+          }
+
+          so.extendBounds(so.bounds, [ui.markers[i].location.lng, ui.markers[i].location.lat]);
+
+          if (ui.markers[i].note) {
+            // var clickFn = (markerContent) => { return (e) => {
+            //     e.stopPropagation();
+            //     var markerStr = '<div class="popup"><div>' + markerContent.note + '</div>';
+            //     if (markerContent.image_urls) {
+            //       markerStr += '<div class="">';
+            //       for (var j = 0; j < markerContent.image_urls.length; j++) {
+            //         markerStr += '<div class="marker-image-preview-container"><img class="marker-image-preview" src="' + markerContent.image_urls[j] + '"></div>';
+            //       }
+            //       markerStr += '</div>';
+            //     }
+            //     markerStr += '</div>';
+            //     new mapboxgl.Popup()
+            //       .setLngLat([markerContent.location.lng, markerContent.location.lat])
+            //       .setHTML(markerStr)
+            //       .addTo(so.map);
+            //   };
+            // };
+            // marker.getElement().addEventListener('click', clickFn(ui.markers[i]));
+          }
+        }
+        so.previousMarker = markers;
+      }
+    );
+  }
+
+  so.displayPOIFor(ix);
+}
+
+BeansEsri.prototype.displayPOIFor = function(ix) {
+  return;
+  var so = this;
+  var data = so.searchResults[ix];
+  var options = so.options[ix];
+
+  var pois = getPOIs.bind(so)(ix);
+  renderPOIsCard.bind(so)(pois);
+
+  require([
+      "esri/Graphic"
+    ],
+    function(Graphic) {
+      for (var i = 0; i < pois.length; i++) {
+        var markerEl = pois[i].isMiniMarker ? createMiniMarker(so.iconConfig[pois[i].keyName], pois[i].markerUrl, '') : createMarker(so.iconConfig[pois[i].keyName], pois[i].markerUrl, '');
+        var esriMarkerUrl = "";
+        if (pois[i].keyName === 'ENTRANCE') {
+          esriMarkerUrl = "https://www.beans.ai/maps/assets/ientrance.svg";
+        }
+        if (pois[i].keyName === 'ELEVATOR') {
+          esriMarkerUrl = "https://www.beans.ai/maps/assets/ielevator.svg";
+        }
+        if (pois[i].keyName === 'STAIR') {
+          esriMarkerUrl = "https://www.beans.ai/maps/assets/istair.svg";
+        }
+        if (pois[i].keyName === 'PARKING') {
+          esriMarkerUrl = "https://www.beans.ai/maps/assets/iparking.svg";
+        }
+        if (pois[i].keyName === 'UNIT') {
+          esriMarkerUrl = "https://www.beans.ai/maps/assets/iunit.svg";
+        }
+        if (esriMarkerUrl) {
+          var pointGraphic = new Graphic({
+            geometry: {
+              type: "point",
+              longitude: pois[i].location.lng,
+              latitude: pois[i].location.lat,
+              //hasZ: true,
+              //z: 40
+            },
+            symbol: {
+              type: "point-3d",  // autocasts as new PointSymbol3D()
+              symbolLayers: [{
+                type: "icon",  // autocasts as new IconSymbol3DLayer()
+                resource: {
+                  href: esriMarkerUrl
+                },
+                size: 24
+              }],
+              verticalOffset: {
+                screenLength: 40,
+                maxWorldLength: 100,
+                minWorldLength: 20
+              },
+              callout: {
+                type: "line", // autocasts as new LineCallout3D()
+                size: 0.5,
+                color: '#' + so.iconConfig[pois[i].keyName].color_code
+              }
+            }
+          });
+          so.previousCustomMarker.push(pointGraphic);
+          so.mapGraphics.add(pointGraphic);
+        }
+
+        if (options.repositionToAmenities) {
+          so.extendBounds(so.bounds, [pois[i].location.lng, pois[i].location.lat]);
+          so.ui.beansRow.style.display = "none";
+        } else {
+          so.ui.beansRow.style.display = "flex";
+        }
+
+        if (pois[i].text) {
+          // var clickFn = (markerContent) => { return (e) => {
+          //     e.stopPropagation();
+          //     var markerStr = '<div class="popup"><div>' + markerContent.text + '</div>';
+          //     if (markerContent.image_urls) {
+          //       markerStr += '<div class="">';
+          //       for (var j = 0; j < markerContent.image_urls.length; j++) {
+          //         markerStr += '<div class="marker-image-preview-container"><img class="marker-image-preview" src="' + markerContent.image_urls[j] + '"></div>';
+          //       }
+          //       markerStr += '</div>';
+          //     }
+          //     markerStr += '</div>';
+          //     new mapboxgl.Popup()
+          //       .setLngLat([markerContent.location.lng, markerContent.location.lat])
+          //       .setHTML(markerStr)
+          //       .addTo(so.map);
+          //   };
+          // };
+          // marker.getElement().addEventListener('click', clickFn(pois[i]));
+        }
+      }
+    }
+  );
+}
+
+BeansEsri.prototype.search = function(address, unit, options, ix) {
+  var so = this;
+  var so = this;
+  so.searchResults.push({});
+  so.markers.push(null);
+  so.options.push({});
+  so.options[ix] = options;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', serverUrl + '/enterprise/v2/search/beans?address=' + encodeURIComponent(address) + '&unit=' + encodeURIComponent(unit));
+  xhr.setRequestHeader('Authorization', 'Basic ' + btoa(so.apiKey));
+  xhr.setRequestHeader('X-Beansai-Include-Points-Of-Interest', 'true');
+  xhr.setRequestHeader('X-Beansai-Include-Ui-Data', 'true');
+  xhr.setRequestHeader('X-Beansai-Include-Notes-And-Markers', 'true');
+  xhr.setRequestHeader('X-Beansai-Include-Generated-Route', 'true');
+  xhr.setRequestHeader('search-sdk-profile', 'consumer');
+  xhr.setRequestHeader('format', 'proto');
+  xhr.onreadystatechange = function () {
+    var DONE = 4; // readyState 4 means the request is done.
+    var OK = 200; // status 200 is a successful return.
+    if (xhr.readyState !== DONE || xhr.status !== OK) {
+      return;
+    }
+
+    var data = JSON.parse(xhr.responseText);
+    if (!data.data) {
+      failure.bind(so)();
+      return;
+    }
+    data = data.data;
+    so.searchResults[ix] = data;
+
+    if (!data.routes || data.routes.length == 0) {
+      return;
+    }
+    so.hasSearchResult = true;
+    so.ui.cardResult.classList.add('active');
+    so.ui.cardBeans.classList.remove('big-card');
+    so.ui.cardBeans.classList.add('small-card');
+    so.bigCard = false;
+
+    var route = data.routes[0];
+    var ui = route.route_ui_data;
+
+    if (!ui.address) {
+      failure.bind(so)();
+      return;
+    }
+
+    if (!so.bounds) {
+      so.bounds = so.createBounds();
+    }
+
+    if (ui.markers) {
+      var glHidden = (options.markers && options.markers.display === false);
+      var backupBounds = so.createBounds();
+
+      var has3D = false;
+      for (var i = 0; i < route.fragments.length; i++) {
+        if (route.fragments[i].destination && route.fragments[i].destination.type === 'UNIT') {
+          if (route.fragments[i].destination.data && route.fragments[i].destination.data.shape) {
+            has3D = true;
+          }
+        }
+      }
+
+      if (!has3D) {
+        for (var i = 0; i < ui.markers.length; i++) {
+          if (!ui.markers[i].location) {
+            continue;
+          }
+          so.extendBounds(backupBounds, [ui.markers[i].location.lng, ui.markers[i].location.lat]);
+          if (ui.markers[i].type !== "UNIT") {
+            continue;
+          }
+          if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === false) {
+            continue;
+          }
+          if (glHidden) {
+            if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === true) {
+            } else {
+              continue;
+            }
+          }
+
+          if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].tooltip) {
+            ui.markers[i].note = options.markers[ui.markers[i].type.toLowerCase()].tooltip;
+          }
+
+          var markerText = ui.markers[i].text;
+          if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].text) {
+            markerText = options.markers[ui.markers[i].type.toLowerCase()].text;
+          }
+
+          var markerUrl = null;
+          if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].iconUrl) {
+            markerUrl = options.markers[ui.markers[i].type.toLowerCase()].iconUrl;
+          }
+
+          var esriMarkerUrl = "";
+          if (ui.markers[i].type === 'ENTRANCE') {
+            esriMarkerUrl = "https://www.beans.ai/maps/assets/ientrance.svg";
+          }
+          if (ui.markers[i].type === 'ELEVATOR') {
+            esriMarkerUrl = "https://www.beans.ai/maps/assets/ielevator.svg";
+          }
+          if (ui.markers[i].type === 'STAIR') {
+            esriMarkerUrl = "https://www.beans.ai/maps/assets/istair.svg";
+          }
+          if (ui.markers[i].type === 'PARKING') {
+            esriMarkerUrl = "https://www.beans.ai/maps/assets/iparking.svg";
+          }
+          if (ui.markers[i].type === 'UNIT') {
+            esriMarkerUrl = "https://www.beans.ai/maps/assets/iunit.svg";
+          }
+          if (esriMarkerUrl) {
+            require([
+                "esri/Graphic"
+              ],
+              function(Graphic) {
+                var pointGraphic = new Graphic({
+                  geometry: {
+                    type: "point",
+                    longitude: ui.markers[i].location.lng,
+                    latitude: ui.markers[i].location.lat,
+                    //hasZ: true,
+                    //z: 40
+                  },
+                  symbol: {
+                    type: "point-3d",  // autocasts as new PointSymbol3D()
+                    symbolLayers: [{
+                      type: "icon",  // autocasts as new IconSymbol3DLayer()
+                      resource: {
+                        href: esriMarkerUrl
+                      },
+                      size: 24
+                    }],
+                    verticalOffset: {
+                      screenLength: 40,
+                      maxWorldLength: 100,
+                      minWorldLength: 20
+                    },
+                    callout: {
+                      type: "line", // autocasts as new LineCallout3D()
+                      size: 0.5,
+                      color: '#' + so.iconConfig[ui.markers[i].type].color_code
+                    }
+                  }
+                });
+                so.mapGraphics.add(pointGraphic);
+              });
+          }
+
+          so.extendBounds(so.bounds, [ui.markers[i].location.lng, ui.markers[i].location.lat]);
+          // marker.getElement().addEventListener('click', () => {
+          //   so.currentIx = ix;
+          //   so.displayDataFor(ix);
+          //   so.map.flyTo({center: so.markers[ix].getLngLat()});
+          // });
+          // so.markers[ix] = marker;
+        }
+      }
+    }
+
+    if (ix === so.currentIx) {
+      so.displayDataFor(ix);
+    }
+
+    if (so.bounds.xmin === 180.0) {
+      so.bounds = backupBounds;
+    }
+
+    if (!options.disableReposition) {
+      // const camera = so.mapView.camera.clone();
+      // var x = (so.bounds.xmax + so.bounds.xmin) / 2;
+      // var y = (so.bounds.ymax + so.bounds.ymin) / 2;
+      // camera.heading = 0;
+      // camera.tilt = 0;
+      // camera.position = {
+      //   x: x,
+      //   y: y
+      // };
+      // so.mapView.camera = camera;
+      if (!options.disableReposition) {
+        if (options.tiles && options.tiles.display === false) {
+          so.mapView.padding = {
+              top: so.ui.divWidth < 500 ? 0 : 0,
+              left: so.ui.divWidth < 500 ? 0 : 0,
+              right: so.ui.divWidth < 500 ? 0 : 0,
+              bottom: so.ui.divWidth < 500 ? 0 : 0
+          };
+        } else {
+          so.mapView.padding = {
+            top: so.ui.divWidth < 500 ? 0 : 0,
+            left: so.ui.divWidth < 500 ? 0 : (0 + Math.min(350, so.ui.divWidth / 3)),
+            right: so.ui.divWidth < 500 ? 0 : 0,
+            bottom: so.ui.divWidth < 500 ? 265 : 0
+          };
+        }
+        require(
+          [
+            'esri/geometry/Extent'
+          ],
+          function (Extent) {
+            so.mapView.extent = new Extent(so.bounds).expand(2);
+          }
+        );
+      }
+    }
+
+    if (options.success) {
+      options.success();
+    }
+  };
+  xhr.send();
+}
+
+var BeansGoogle = function() {
+  this.idToken = "";
+  this.apiKey = "";
+
+  this.map = null;
+  this.USGSOverlay = null;
+  this.mapId = "";
+  this.isInitMap = false;
+  this.previousStyleName = "";
+
+  this.navigateLatLng = null;
+
+  this.hasSearchResult = false;
+  this.layerCounter = 0;
+  this.previousPolygons = [];
+  this.previousWindows = [];
+  this.previousMarkerObj = [];
+  this.previousCustomMarkerObj = [];
+  this.markers = [];
+  this.mapStyle = "";
+  this.showDistances = false;
+  this.bigCard = false;
+  this.iconConfig = {};
+
+  this.touchstartX = 0;
+  this.touchstartY = 0;
+  this.touchendX = 0;
+  this.touchendY = 0;
+
+  this.navigateClickListenerObj = null;
+  this.navOptions = null;
+  this.displayOptions = null;
+
+  this.searchResults = [];
+  this.options = [];
+  this.currentIx = 0;
+  this.bounds = null;
+
+  this.selectedFloor = 0;
+
+  this.ui = {
+    divWidth: 0,
+    divHeight: 0,
+    beansButtonbar: null,
+    buttonSatellite : null,
+    buttonMylocation : null,
+    cardBeans : null,
+    cardResult : null,
+    buttonNavigate : null,
+    textContainerLine1 : null,
+    textLine1 : null,
+    textLine2 : null,
+    textLine3 : null,
+    textLine4 : null,
+    beansRow : null,
+    beansCol1 : null,
+    beansTile1 : null,
+    beansTileIconContainer1 : null,
+    beansTileIcon1 : null,
+    beansTileText1 : null,
+    beansCol2 : null,
+    beansTile2 : null,
+    beansTileIconContainer2 : null,
+    beansTileIcon2 : null,
+    beansTileText2 : null,
+    beansCol3 : null,
+    beansTile3 : null,
+    beansTileIconContainer3 : null,
+    beansTileIcon3 : null,
+    beansTileText3 : null,
+    cardFacilities : null,
+    textNotes: null,
+    cardLinks : null
+  };
+}
+
+BeansGoogle.prototype.prepareForSearch = function(apiKey, div) {
+  var so = this;
+
+  so.apiKey = apiKey;
+
+  createUICards.bind(so)(div, "BeansMapbox");
+  so.initMap();
+
+  so.ui.buttonSatellite.addEventListener('click', function() {
+    if (so.map.getMapTypeId() === "hybrid") {
+      so.map.setMapTypeId('roadmap');
+    } else {
+      so.map.setMapTypeId('hybrid');
+    }
+  });
+  so.ui.buttonMylocation.addEventListener('click', function() {
+    if (globalInstance.userLocation != null) {
+      var position = {
+        coords: {
+          longitude: globalInstance.userLocation.lng,
+          latitude: globalInstance.userLocation.lat
+        }
+      };
+      showLocation(position);
+
+      so.map.setZoom(Math.max(so.map.getZoom(), 17));
+      so.map.panTo(globalInstance.userLocation);
+    }
+  });
+}
+
+BeansGoogle.prototype.render = function(div, apiKey, addressAndUnitWithOptions) {
+  var so = this;
+  so.resetState();
+
+  getIconConfig.bind(so)(() => {
+    for (var i = 0; i < addressAndUnitWithOptions.length; i++) {
+      so.search(
+        addressAndUnitWithOptions[i].address ? addressAndUnitWithOptions[i].address : '',
+        addressAndUnitWithOptions[i].unit ? addressAndUnitWithOptions[i].unit : '',
+        addressAndUnitWithOptions[i].options ? addressAndUnitWithOptions[i].options : {},
+        i);
+    }
+  });
+}
+
+BeansGoogle.prototype.initMap = function() {
+  var so = this;
+
+  google.maps.Polygon.prototype.getBoundingBox = function() {
+    var bounds = new google.maps.LatLngBounds();
+    this.getPath().forEach(function(element,index) {
+      bounds.extend(element)
+    });
+    return(bounds);
+  };
+
+  google.maps.Polygon.prototype.getApproximateCenter = function() {
+    var boundsHeight = 0,
+    boundsWidth = 0,
+    centerPoint,
+    heightIncr = 0,
+    maxSearchLoops,
+    maxSearchSteps = 10,
+    n = 1,
+    northWest,
+    polygonBounds = this.getBoundingBox(),
+    testPos,
+    widthIncr = 0;
+    // Get polygon Centroid
+    centerPoint = polygonBounds.getCenter();
+    if (google.maps.geometry.poly.containsLocation(centerPoint, this)) {
+      // Nothing to do Centroid is in polygon use it as is
+      return centerPoint;
+    } else {
+      maxSearchLoops = maxSearchSteps / 2;
+      // Calculate NorthWest point so we can work out height of polygon NW->SE
+      northWest = new google.maps.LatLng(
+        polygonBounds.getNorthEast().lat(),
+        polygonBounds.getSouthWest().lng()
+      );
+      // Work out how tall and wide the bounds are and what our search
+      // increment will be
+      boundsHeight = google.maps.geometry.spherical.computeDistanceBetween(
+        northWest,
+        polygonBounds.getSouthWest()
+      );
+      heightIncr = boundsHeight / maxSearchSteps;
+      boundsWidth = google.maps.geometry.spherical.computeDistanceBetween(
+        northWest, polygonBounds.getNorthEast()
+      );
+      widthIncr = boundsWidth / maxSearchSteps;
+      // Expand out from Centroid and find a point within polygon at
+      // 0, 90, 180, 270 degrees
+      for (; n <= maxSearchSteps; n++) {
+        // Test point North of Centroid
+        testPos = google.maps.geometry.spherical.computeOffset(
+          centerPoint,
+          (heightIncr * n),
+          0
+        );
+        if (google.maps.geometry.poly.containsLocation(testPos, this)) {
+          break;
+        }
+        // Test point East of Centroid
+        testPos = google.maps.geometry.spherical.computeOffset(
+          centerPoint,
+          (widthIncr * n),
+          90
+        );
+        if (google.maps.geometry.poly.containsLocation(testPos, this)) {
+          break;
+        }
+        // Test point South of Centroid
+        testPos = google.maps.geometry.spherical.computeOffset(
+          centerPoint,
+          (heightIncr * n),
+          180
+        );
+        if (google.maps.geometry.poly.containsLocation(testPos, this)) {
+          break;
+        }
+        // Test point West of Centroid
+        testPos = google.maps.geometry.spherical.computeOffset(
+          centerPoint,
+          (widthIncr * n),
+          270
+        );
+        if (google.maps.geometry.poly.containsLocation(testPos, this)) {
+          break;
+        }
+      }
+      return(testPos);
+    }
+  };
+
+  so.USGSOverlay = class extends google.maps.OverlayView {
+    div_;
+    latlng_;
+    subX_;
+    subY_;
+
+    constructor(div, latlng, subX, subY) {
+      super();
+      this.div_ = div;
+      this.latlng_ = latlng;
+      this.subX_ = subX ? subX : 18;
+      this.subY_ = subY ? subY : 44;
+    }
+    /**
+     * onAdd is called when the map's panes are ready and the overlay has been
+     * added to the map.
+     */
+    onAdd() {
+      var me = this;
+
+      // Add the element to the "overlayLayer" pane.
+      const panes = this.getPanes();
+      panes.overlayMouseTarget.appendChild(this.div_);
+      google.maps.event.addDomListener(this.div_, "click", function(event) {
+        google.maps.event.trigger(me, "click");
+      });
+    }
+
+    draw() {
+      var point = this.getProjection().fromLatLngToDivPixel(this.latlng_);
+      if (point) {
+        this.div_.style.left = (point.x - this.subX_) + 'px';
+        this.div_.style.top = (point.y - this.subY_) + 'px';
+      }
+    }
+
+    getPosition() {
+      return this.latlng_;
+    }
+
+    /**
+     * The onRemove() method will be called automatically from the API if
+     * we ever set the overlay's map property to 'null'.
+     */
+    onRemove() {
+      if (this.div_) {
+        this.div_.parentNode.removeChild(this.div_);
+        delete this.div_;
+      }
+    }
+    /**
+     *  Set the visibility to 'hidden' or 'visible'.
+     */
+    hide() {
+      if (this.div_) {
+        this.div_.style.visibility = "hidden";
+      }
+    }
+    show() {
+      if (this.div_) {
+        this.div_.style.visibility = "visible";
+      }
+    }
+    toggle() {
+      if (this.div_) {
+        if (this.div_.style.visibility === "hidden") {
+          this.show();
+        } else {
+          this.hide();
+        }
+      }
+    }
+    toggleDOM(map) {
+      if (this.getMap()) {
+        this.setMap(null);
+      } else {
+        this.setMap(map);
+      }
+    }
+  };
+
+  if (so.isInitMap) {
+    return;
+  }
+  so.isInitMap = true;
+
+  if (!so.displayOptions || !so.displayOptions.initialPosition || !so.displayOptions.initialPosition.address) {
+    so.initMapAfterGeocode();
+  } else {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', serverUrl + '/enterprise/v2/search/beans?address=' + encodeURIComponent(so.displayOptions.initialPosition.address));
+    xhr.setRequestHeader('Authorization', 'Basic ' + btoa(so.apiKey));
+    xhr.setRequestHeader('search-sdk-profile', 'consumer');
+    xhr.setRequestHeader('format', 'proto');
+    xhr.onreadystatechange = function () {
+      var DONE = 4; // readyState 4 means the request is done.
+      var OK = 200; // status 200 is a successful return.
+      if (xhr.readyState !== DONE || xhr.status !== OK) {
+        return;
+      }
+      var data = JSON.parse(xhr.responseText);
+      if (!data.data) {
+        failure.bind(so)();
+        return;
+      }
+      data = data.data;
+      if (!data.routes || data.routes.length == 0) {
+        failure();
+        return;
+      }
+      so.displayOptions.initialPosition.lat = data.routes[0].navigate_to.lat;
+      so.displayOptions.initialPosition.lng = data.routes[0].navigate_to.lng;
+      so.initMapAfterGeocode();
+    };
+    xhr.send();
+  }
+}
+
+BeansGoogle.prototype.initMapAfterGeocode = function() {
+  var so = this;
+  var mapType = 'roadmap';
+  if (so.displayOptions && so.displayOptions.initialMap === 'SATELLITE') {
+    mapType = 'hybrid';
+  }
+  so.map = new google.maps.Map(document.getElementById(so.mapId), {
+    zoom: 12,
+    tilt: 0,
+    center: new google.maps.LatLng(
+      so.displayOptions.initialPosition ? so.displayOptions.initialPosition.lat : 37.406945,
+      so.displayOptions.initialPosition ? so.displayOptions.initialPosition.lng : -122.108284
+    ),
+    mapTypeId: mapType,
+    mapTypeControl: false,
+    zoomControl: false,
+    scaleControl: false,
+    streetViewControl: false,
+    rotateControl: false,
+    fullscreenControl: false
+  });
+
+  if (!so.navOptions || !so.navOptions.userLocation || so.navOptions.hideNavigateButton) {
+    // Hide nav button
+    if (so.ui.buttonNavigate) {
+      so.ui.buttonNavigate.style.display = "none";
+    }
+  }
+
+  geolocate(
+    so.navOptions,
+    function(geolocation) {
+      var userMarker = new google.maps.Marker({
+        position: geolocation,
+        map: so.map,
+        icon: {
+          url: 'https://www.beans.ai/m/assets/bluecircle.png',
+          scaledSize: new google.maps.Size(30, 30),
+          origin: new google.maps.Point(0, 0),
+          anchor: new google.maps.Point(15,15)
+        },
+        visible: true,
+        optimized: false,
+        zIndex: 99999999
+      });
+      if (so.navigateLatLng && !so.navOptions.hideNavigateButton) {
+        so.ui.buttonNavigate.style.display = "block";
+        so.ui.buttonNavigate.removeEventListener('click', so.navigateClickListenerObj);
+        so.ui.buttonNavigate.addEventListener('click', so.navigateClickListenerObj);
+      }
+      return userMarker;
+    },
+    function(userMarker, geolocation) {
+      userMarker.setMap(so.map);
+      userMarker.setPosition(geolocation);
+    }
+  );
+};
+
+BeansGoogle.prototype.resetState = function() {
+  var so = this;
+
+  so.searchResults = [];
+  so.options = [];
+  so.bounds = null;
+  so.currentIx = 0;
+
+  resetUICards.bind(so)();
+
+  if (so.markers && so.markers.length > 0) {
+    for (var i = 0; i < so.markers.length; i++) {
+      if (so.markers[i]) {
+        so.markers[i].setMap(null);
+      }
+    }
+    so.markers = [];
+  }
+
+  if (so.previousPolygons.length > 0) {
+    for (var i = 0; i < so.previousPolygons.length; i++) {
+      so.previousPolygons[i].setMap(null);
+    }
+    so.previousPolygons = [];
+  }
+
+  if (so.previousWindows.length > 0) {
+    for (var i = 0; i < so.previousWindows.length; i++) {
+      so.previousWindows[i].setMap(null);
+    }
+    so.previousWindows = [];
+  }
+
+  if (so.previousMarkerObj && so.previousMarkerObj.length > 0) {
+    for (var i = 0; i < so.previousMarkerObj.length; i++) {
+      if (so.previousMarkerObj[i]) {
+        so.previousMarkerObj[i].setMap(null);
+      }
+    }
+    so.previousMarkerObj = [];
+  }
+
+  if (so.previousCustomMarkerObj && so.previousCustomMarkerObj.length > 0) {
+    for (var i = 0; i < so.previousCustomMarkerObj.length; i++) {
+      if (so.previousCustomMarkerObj[i]) {
+        so.previousCustomMarkerObj[i].setMap(null);
+      }
+    }
+    so.previousCustomMarkerObj = [];
+  }
+}
+
+BeansGoogle.prototype.displayDataFor = function(ix, dontUpdateSelectedFloor) {
+  var so = this;
+
+  fillUICards.bind(so)(ix);
+
+  var data = so.searchResults[ix];
+
+  if (!data.routes || data.routes.length == 0) {
+    return;
+  }
+
+  var options = so.options[ix];
+  var route = data.routes[0];
+  var ui = route.route_ui_data;
+
+  if (options.onClick) {
+    options.callback(ix);
+  } else if (options.onClickData) {
+    showClickData.bind(so)(ix);
+  }
+
+  if (!so.bounds) {
+    so.bounds = new google.maps.LatLngBounds();
+  }
+
+  if (so.previousPolygons) {
+    for (var i = 0; i < so.previousPolygons.length; i++) {
+      so.previousPolygons[i].setMap(null);
+    }
+    so.previousPolygons = [];
+  }
+
+  if (so.previousWindows) {
+    for (var i = 0; i < so.previousWindows.length; i++) {
+      so.previousWindows[i].setMap(null);
+    }
+    so.previousWindows = [];
+  }
+
+  var markerTypesVisible = [];
+  var markerLatLngsVisible = [];
+  var markerNotes = {};
+  if (ui.markers) {
+    var glHidden = (options.markers && options.markers.display === false);
+
+    for (var i = 0; i < ui.markers.length; i++) {
+      if (!ui.markers[i].location) {
+        continue;
+      }
+      if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === false) {
+        continue;
+      }
+      if (glHidden) {
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === true) {
+        } else {
+          continue;
+        }
+      }
+      markerTypesVisible.push(ui.markers[i].type);
+      markerLatLngsVisible.push(ui.markers[i].location);
+      if (ui.markers[i].note) {
+        markerNotes[ui.markers[i].type] = ui.markers[i].note;
+      }
+    }
+  }
+  var pois = getPOIs.bind(so)(ix);
+  if (pois.length > 0) {
+    for (var i = 0; i < pois.length; i++) {
+      markerTypesVisible.push(pois[i].keyName);
+      markerLatLngsVisible.push(pois[i].location);
+    }
+  }
+
+  if (so.displayOptions && so.displayOptions.showPath && route.fragments) {
+    // Sort visible markers
+    var pathSeq = so.displayOptions && so.displayOptions.path ? so.displayOptions.path : ['PARKING', 'ENTRANCE', 'ELEVATOR', 'STAIR', 'UNIT'];
+    // Reduce path sequence based on visible markers
+    var seqTypesVisible = [];
+    var seqLatLngsVisible = [];
+    for (var i = 0; i < pathSeq.length; i++) {
+      var tix = markerTypesVisible.indexOf(pathSeq[i]);
+      if (tix !== -1) {
+        seqTypesVisible.push(markerTypesVisible[tix]);
+        seqLatLngsVisible.push(markerLatLngsVisible[tix]);
+      }
+    }
+    // Now for each pathSeqVisibleMarkerTypes[i] and pathSeqVisibleMarkerTypes[i+1], we either have the route or we need to calculate
+    var key1 = ''
+    var key2 = ''
+    // if (globalInstance.userLocation != null) {
+    //   key = globalInstance.userLocation.lng + ',' + globalInstance.userLocation.lat + ',Current Location';
+    // }
+
+    for (var s = 0; s < seqTypesVisible.length; s++) {
+      var type1 = seqTypesVisible[s];
+      if (type1 === 'KEYBOX') {
+        type1 = 'LOCKBOX';
+      }
+      var latLng1 = seqLatLngsVisible[s];
+
+      if (key1 !== '') {
+        key1 = key1 + ';';
+      }
+      if (key2 !== '') {
+        key2 = key2 + ';';
+      }
+
+      if (pathSeq.includes('PARKING') && type1 === 'PARKING') { //} && globalInstance.userLocation != null) {
+//        key1 = key1 + '45.5379200436764,-122.8740280766503,0.0,Current Location'; //globalInstance.userLocation.lat + ',' + globalInstance.userLocation.lng + ',CurrentLocation';
+        key1 = key1 + latLng1.lat + ',' + latLng1.lng + ',' + (latLng1.elevation ? latLng1.elevation : '0.0') + ',' + type1;
+        key2 = key2 + latLng1.lat + ',' + latLng1.lng + ',' + (latLng1.elevation ? latLng1.elevation : '0.0') + ',' + type1;
+      } else {
+        key1 = key1 + latLng1.lat + ',' + latLng1.lng + ',' + (latLng1.elevation ? latLng1.elevation : '0.0') + ',' + type1;
+        key2 = key2 + latLng1.lat + ',' + latLng1.lng + ',' + (latLng1.elevation ? latLng1.elevation : '0.0') + ',' + type1;
+      }
+    }
+
+    var f = function(key1, key2) {
+      var so = this;
+
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', serverUrl + '/enterprise/v2/search/path?waypoints=' + encodeURIComponent(key1));
+      xhr.setRequestHeader('Authorization', 'Basic ' + btoa(so.apiKey));
+      xhr.setRequestHeader('format', 'proto');
+      xhr.onreadystatechange = function () {
+        var DONE = 4; // readyState 4 means the request is done.
+        var OK = 200; // status 200 is a successful return.
+        if (xhr.readyState !== DONE || xhr.status !== OK) {
+          return;
+        }
+        var data = JSON.parse(xhr.responseText);
+        if (!data.data) {
+          return;
+        }
+        data = data.data;
+        showDirections.bind(so)(data, true, markerNotes);
+
+        if (data && data.point) {
+          var p = new Array();
+          for (var j = 0; j < data.point.length; j++) {
+            p.push(new google.maps.LatLng(data.point[j].lat, data.point[j].lng));
+          }
+
+          var polygon = new google.maps.Polyline({
+            map: so.map,
+            path: p,
+            strokeColor: '#1967D2',
+            strokeOpacity: 1.0,
+            strokeWeight: 6
+          });
+          so.previousPolygons.push(polygon);
+
+          var polygon = new google.maps.Polyline({
+            map: so.map,
+            path: p,
+            strokeColor: '#00B1FF',
+            strokeOpacity: 1.0,
+            strokeWeight: 4
+          });
+          so.previousPolygons.push(polygon);
+        } else if (key2) {
+          // try finding the path
+          f.bind(so)(key2);
+        }
+      };
+      xhr.send();
+    };
+
+    f.bind(so)(key1, key2);
+
+    /*
+    var first = true;
+
+    for (var i = 0; i < route.fragments.length; i++) {
+      if (!route.fragments[i].origin || !visibleMarkerTypes.includes(route.fragments[i].origin.type)
+          || !route.fragments[i].destination || !visibleMarkerTypes.includes(route.fragments[i].destination.type)) {
+        continue;
+      }
+
+      first = showDirections.bind(so)(route.fragments[i].path, first);
+
+      if (route.fragments[i].path && route.fragments[i].path.point) {
+        var p = new Array();
+        for (var j = 0; j < route.fragments[i].path.point.length; j++) {
+          p.push(new google.maps.LatLng(route.fragments[i].path.point[j].lat, route.fragments[i].path.point[j].lng));
+        }
+
+        var polygon = new google.maps.Polyline({
+          map: so.map,
+          path: p,
+          strokeColor: '#1967D2',
+          strokeOpacity: 1.0,
+          strokeWeight: 6
+        });
+        so.previousPolygons.push(polygon);
+
+        var polygon = new google.maps.Polyline({
+          map: so.map,
+          path: p,
+          strokeColor: '#00B1FF',
+          strokeOpacity: 1.0,
+          strokeWeight: 4
+        });
+        so.previousPolygons.push(polygon);
+      }
+    }*/
+  }
+
+  if (so.displayOptions && (so.displayOptions.showBuildingShape || so.displayOptions.showUnitShape) && ui.building_shape && ui.building_shape.point) {
+    var p = new Array();
+    for (var j = 0; j < ui.building_shape.point.length; j++) {
+      so.bounds.extend(new google.maps.LatLng(ui.building_shape.point[j].lat, ui.building_shape.point[j].lng));
+    }
+  }
+
+  var hasUnitShape = false;
+  if (so.displayOptions && so.displayOptions.showUnitShape && route.fragments) {
+    var unitPolygonToExclude = {};
+    for (var i = 0; i < route.fragments.length; i++) {
+      if (route.fragments[i].destination && route.fragments[i].destination.type === 'UNIT') {
+        if (route.fragments[i].destination.data && route.fragments[i].destination.data.shape) {
+          var pGoogle = new Array();
+          var p = new Array();
+          for (var j = 0; j < route.fragments[i].destination.data.shape.point.length; j++) {
+            pGoogle.push(new google.maps.LatLng(route.fragments[i].destination.data.shape.point[j].lat, route.fragments[i].destination.data.shape.point[j].lng));
+            p.push([route.fragments[i].destination.data.shape.point[j].lng, route.fragments[i].destination.data.shape.point[j].lat]);
+          }
+          if (route.fragments[i].destination.data.shape.point.length > 0) {
+            pGoogle.push(new google.maps.LatLng(route.fragments[i].destination.data.shape.point[0].lat, route.fragments[i].destination.data.shape.point[0].lng));
+            p.push([route.fragments[i].destination.data.shape.point[0].lng, route.fragments[i].destination.data.shape.point[0].lat]);
+          }
+          var elevation = 0;
+          var wallHeight = 0;
+          var floor = 0;
+          if (route.fragments[i].destination.location.elevation !== undefined) {
+            elevation = route.fragments[i].destination.location.elevation;
+          } else if (route.fragments[i].destination.elevation !== undefined) {
+            elevation = route.fragments[i].destination.elevation;
+          }
+          if (route.fragments[i].destination.data.wall_height !== undefined) {
+            wallHeight = route.fragments[i].destination.data.wall_height;
+          }
+          if (route.fragments[i].destination.data.floor !== undefined) {
+            floor = route.fragments[i].destination.data.floor;
+          }
+          if (!dontUpdateSelectedFloor) {
+            so.selectedFloor = floor;
+          }
+          if (wallHeight == 0) {
+            wallHeight = 3;
+          }
+          if (elevation == 0) {
+            elevation = floor == 0 ? 0 : ((floor - 1) * 3);
+          }
+          if (pGoogle.length >= 4 && floor + "" === so.selectedFloor + "") {
+            hasUnitShape = true;
+            unitPolygonToExclude = {
+              elevation: Number.parseFloat(elevation).toFixed(0),
+              coordinates: [p]
+            };
+            var polygon = new google.maps.Polygon({
+              map: so.map,
+              paths: pGoogle,
+              strokeColor: '#000000',
+              strokeOpacity: 1,
+              strokeWeight: 1,
+              fillColor: '#0CB1A1',
+              fillOpacity: 1.0
+            });
+            so.previousPolygons.push(polygon);
+          }
+        }
+      }
+    }
+
+    getBuildingUnitPolygons.bind(so)(ui.address, unitPolygonToExclude, (unitPolygonsToDraw) => {
+      var minFloor = 100;
+      var maxFloor = 0;
+
+      for (var i = 0; i < unitPolygonsToDraw.length; i++) {
+        minFloor = Math.min(unitPolygonsToDraw[i].floor, minFloor);
+        maxFloor = Math.max(unitPolygonsToDraw[i].floor, maxFloor);
+
+        if ((unitPolygonsToDraw[i].description && unitPolygonsToDraw[i].description.startsWith("Parking_")) || unitPolygonsToDraw[i].floor + "" === so.selectedFloor + "") {
+          var p = new Array();
+          var latSum = 0.0;
+          var lngSum = 0.0;
+          var cnt = 0;
+          for (var j = 0; j < unitPolygonsToDraw[i].coordinates.length; j++) {
+            p.push(new google.maps.LatLng(unitPolygonsToDraw[i].coordinates[j][1], unitPolygonsToDraw[i].coordinates[j][0]));
+            latSum += unitPolygonsToDraw[i].coordinates[j][1];
+            lngSum += unitPolygonsToDraw[i].coordinates[j][0];
+            cnt++;
+          }
+          if (unitPolygonsToDraw[i].coordinates.length > 0) {
+            p.push(new google.maps.LatLng(unitPolygonsToDraw[i].coordinates[0][1], unitPolygonsToDraw[i].coordinates[0][0]));
+          }
+          if (p.length >= 4) {
+            var polygon = new google.maps.Polygon({
+              map: so.map,
+              paths: p,
+              strokeColor: '#000000',
+              strokeOpacity: 1,
+              strokeWeight: 1,
+              fillColor: '#ffffff',
+              fillOpacity: 1.0
+            });
+            so.previousPolygons.push(polygon);
+
+            if (unitPolygonsToDraw[i].description && unitPolygonsToDraw[i].description.startsWith("Parking_")) {
+              var markerStr = createDivWithClass('popup');
+              var idKey = createDivWithClass('popup-name');
+              idKey.innerHTML = "ID";
+              markerStr.appendChild(idKey);
+              var idVal = createDivWithClass('popup-value');
+              idVal.innerHTML = "31129";
+              markerStr.appendChild(idVal);
+              var nameKey = createDivWithClass('popup-name');
+              nameKey.innerHTML = "Name";
+              markerStr.appendChild(nameKey);
+              var nameVal = createDivWithClass('popup-value');
+              nameVal.innerHTML = unitPolygonsToDraw[i].description;
+              markerStr.appendChild(nameVal);
+              var priceKey = createDivWithClass('popup-name');
+              priceKey.innerHTML = "Price";
+              markerStr.appendChild(priceKey);
+              var priceVal = createDivWithClass('popup-value');
+              priceVal.innerHTML = "$25.00 / month";
+              markerStr.appendChild(priceVal);
+              var availKey = createDivWithClass('popup-name');
+              availKey.innerHTML = "Availability";
+              markerStr.appendChild(availKey);
+              var availVal = createDivWithClass('popup-value');
+              availVal.innerHTML = "08/23/2022";
+              markerStr.appendChild(availVal);
+              var selectBtn = createDivWithClass('selectbtn');
+              selectBtn.innerHTML = "Select";
+              markerStr.appendChild(selectBtn);
+              var iw = new google.maps.InfoWindow({
+                position: new google.maps.LatLng(latSum / cnt, lngSum / cnt),
+                content: markerStr,
+                pixelOffset: new google.maps.Size(0, 0)
+              });
+              so.previousWindows.push(iw);
+
+              var state = {
+                polygon: polygon,
+                infoWindow: iw
+              };
+              google.maps.event.addListener(polygon, 'mouseover', function(state) {return () => {
+                state.polygon.setOptions({strokeWeight: 2.0, fillColor: '#4D90FE', fillOpacity: 0.5});
+                state.infoWindow.open({
+                  map: so.map,
+                  shouldFocus: false,
+                });
+              }}(state));
+              google.maps.event.addListener(polygon, 'mouseout', function(state) {return () => {
+                state.polygon.setOptions({strokeWeight: 1.0, fillColor: '#fff', fillOpacity: 1.0});
+                state.infoWindow.close();
+              }}(state));
+            }
+
+            // var marker = new MarkerWithLabel({
+            //   position: polygon.getApproximateCenter(),
+            //   map: so.map,
+            //   // icon: markerIcon,
+            //   title: unitPolygonsToDraw[i].description,
+            //   labelContent: unitPolygonsToDraw[i].description,
+            //   labelClass: "marker",
+            //   labelAnchor: new google.maps.Point(0, 0)
+            // });
+            // so.previousPolygons.push(marker);
+          }
+        }
+      }
+
+      so.ui.cardFloor.innerHTML = "";
+      if (minFloor < maxFloor) {
+        so.ui.cardFloor.style.display = "block";
+        for (var i = minFloor; i <= maxFloor; i++) {
+          var c = createDivWithClassAndId("floor-picker");
+          c.setAttribute("data-floor", i);
+          c.innerHTML = i;
+          so.ui.cardFloor.appendChild(c);
+
+          c.addEventListener('click', function() {
+            so.selectedFloor = this.getAttribute("data-floor");
+            so.displayDataFor(ix, true);
+          });
+        }
+      }
+    });
+  }
+
+  if (so.displayOptions && so.displayOptions.showBuildingShape && ui.building_shape && ui.building_shape.point) {
+    var p = new Array();
+    for (var j = 0; j < ui.building_shape.point.length; j++) {
+      p.push(new google.maps.LatLng(ui.building_shape.point[j].lat, ui.building_shape.point[j].lng));
+    }
+    if (ui.building_shape.point.length > 0) {
+      p.push(new google.maps.LatLng(ui.building_shape.point[0].lat, ui.building_shape.point[0].lng));
+    }
+    if (p.length >= 4) {
+      var polygon = new google.maps.Polygon({
+        map: so.map,
+        paths: p,
+        //draggable: true, // turn off if it gets annoying
+        //editable: true,
+        strokeColor: '#0CB1A1',
+        strokeOpacity: 0.8,
+        strokeWeight: 1,
+        fillColor: '#0CB1A1',
+        fillOpacity: 0.1
+      });
+      so.previousPolygons.push(polygon);
+    }
+  }
+
+  if (so.previousMarkerObj && so.previousMarkerObj.length > 0) {
+    for (var i = 0; i < so.previousMarkerObj.length; i++) {
+      so.previousMarkerObj[i].setMap(null);
+    }
+    so.previousMarkerObj = [];
+  }
+
+  for (var i = 0; i < so.markers.length; i++) {
+    if (i === so.currentIx && hasUnitShape) {
+      if (so.markers[i]) {
+        so.markers[i].hide();
+      }
+    } else {
+      if (so.markers[i]) {
+        so.markers[i].show();
+      }
+    }
+  }
+
+  if (ui.markers) {
+    var markers = [];
+
+    var glHidden = (options.markers && options.markers.display === false);
+
+    for (var i = 0; i < ui.markers.length; i++) {
+      if (!ui.markers[i].location) {
+        continue;
+      }
+      var url = "";
+      if (ui.markers[i].type === "UNIT") {
+        continue;
+      }
+      if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === false) {
+        continue;
+      }
+      if (glHidden) {
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === true) {
+        } else {
+          continue;
+        }
+      }
+
+      if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].tooltip) {
+        ui.markers[i].note = options.markers[ui.markers[i].type.toLowerCase()].tooltip;
+      }
+
+      var markerText = ui.markers[i].text;
+      if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].text) {
+        markerText = options.markers[ui.markers[i].type.toLowerCase()].text;
+      }
+
+      var markerUrl = null;
+      if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].iconUrl) {
+        markerUrl = options.markers[ui.markers[i].type.toLowerCase()].iconUrl;
+      }
+
+      var markerEl = createMarker(so.iconConfig[ui.markers[i].type], markerUrl, markerText, 'position: absolute; ');
+      var marker = new so.USGSOverlay(markerEl, {lat: ui.markers[i].location.lat, lng: ui.markers[i].location.lng});
+      marker.setMap(so.map);
+
+      if (ui.markers[i].note) {
+        var clickFn = (markerContent, marker) => { return (e) => {
+            var markerStr = '<div class="popup"><div>' + markerContent.note + '</div>';
+            if (markerContent.image_urls) {
+              markerStr += '<div class="">';
+              for (var j = 0; j < markerContent.image_urls.length; j++) {
+                markerStr += '<div class="marker-image-preview-container"><img class="marker-image-preview" src="' + markerContent.image_urls[j] + '"></div>';
+              }
+              markerStr += '</div>';
+            }
+            markerStr += '</div>';
+
+            var iw = new google.maps.InfoWindow({
+              content: markerStr,
+              pixelOffset: new google.maps.Size(0, -45)
+            });
+            iw.open({
+              anchor: marker,
+              map: so.map,
+              shouldFocus: true
+            });
+          };
+        };
+        marker.addListener('click', clickFn(ui.markers[i], marker));
+      }
+
+      so.bounds.extend(new google.maps.LatLng(ui.markers[i].location.lat, ui.markers[i].location.lng));
+      so.bounds.extend(new google.maps.LatLng(ui.markers[i].location.lat - BOUNDS_EXT, ui.markers[i].location.lng));
+      so.bounds.extend(new google.maps.LatLng(ui.markers[i].location.lat + BOUNDS_EXT, ui.markers[i].location.lng));
+      markers.push(marker);
+    }
+    so.previousMarkerObj = markers;
+  }
+
+  so.displayPOIFor(ix);
+}
+
+BeansGoogle.prototype.displayPOIFor = function(ix) {
+  var so = this;
+  var data = so.searchResults[ix];
+  var options = so.options[ix];
+
+  var pois = getPOIs.bind(so)(ix);
+  renderPOIsCard.bind(so)(pois);
+
+  for (var i = 0; i < pois.length; i++) {
+    var markerEl = pois[i].isMiniMarker ? createMiniMarker(so.iconConfig[pois[i].keyName], pois[i].markerUrl, 'position: absolute; ') : createMarker(so.iconConfig[pois[i].keyName], pois[i].markerUrl, '', 'position: absolute; ');
+    var marker = new so.USGSOverlay(markerEl, {lat: pois[i].location.lat, lng: pois[i].location.lng}, 11, 24);
+    marker.setMap(so.map);
+    so.previousCustomMarkerObj.push(marker);
+
+    if (options.repositionToAmenities) {
+      so.bounds.extend(new google.maps.LatLng(pois[i].location.lat, pois[i].location.lng));
+      so.bounds.extend(new google.maps.LatLng(pois[i].location.lat - BOUNDS_EXT, pois[i].location.lng));
+      so.bounds.extend(new google.maps.LatLng(pois[i].location.lat + BOUNDS_EXT, pois[i].location.lng));
+      so.ui.beansRow.style.display = "none";
+    } else {
+      so.ui.beansRow.style.display = "flex";
+    }
+
+    var clickFn = (markerContent, marker) => { return (e) => {
+        var markerStr = '<div class="popup"><div>' + (markerContent.text ? markerContent.text : markerContent.displayName) + '</div>';
+        if (markerContent.image_urls) {
+          markerStr += '<div class="">';
+          for (var j = 0; j < markerContent.image_urls.length; j++) {
+            markerStr += '<div class="marker-image-preview-container"><img class="marker-image-preview" src="' + markerContent.image_urls[j] + '"></div>';
+          }
+          markerStr += '</div>';
+        }
+        markerStr += '</div>';
+
+        var iw = new google.maps.InfoWindow({
+          content: markerStr,
+          pixelOffset: new google.maps.Size(10, -30)
+        });
+        iw.open({
+          anchor: marker,
+          map: so.map,
+          shouldFocus: true
+        });
+      };
+    };
+    marker.addListener('click', clickFn(pois[i], marker));
+  }
+}
+
+BeansGoogle.prototype.search = function(address, unit, options, ix) {
+  var so = this;
+  so.searchResults.push({});
+  so.markers.push(null);
+  so.options.push({});
+  so.options[ix] = options;
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', serverUrl + '/enterprise/v2/search/beans?address=' + encodeURIComponent(address) + '&unit=' + encodeURIComponent(unit));
+  xhr.setRequestHeader('Authorization', 'Basic ' + btoa(so.apiKey));
+  xhr.setRequestHeader('X-Beansai-Include-Points-Of-Interest', 'true');
+  xhr.setRequestHeader('X-Beansai-Include-Ui-Data', 'true');
+  xhr.setRequestHeader('X-Beansai-Include-Notes-And-Markers', 'true');
+  xhr.setRequestHeader('X-Beansai-Include-Generated-Route', 'true');
+  xhr.setRequestHeader('search-sdk-profile', 'consumer');
+  xhr.setRequestHeader('format', 'proto');
+  xhr.onreadystatechange = function () {
+    var DONE = 4; // readyState 4 means the request is done.
+    var OK = 200; // status 200 is a successful return.
+    if (xhr.readyState !== DONE || xhr.status !== OK) {
+      return;
+    }
+    var data = JSON.parse(xhr.responseText);
+    if (!data.data) {
+      failure.bind(so)();
+      return;
+    }
+    data = data.data;
+    so.searchResults[ix] = data;
+
+    if (!data.routes || data.routes.length == 0) {
+      failure();
+      return;
+    }
+    so.hasSearchResult = true;
+    so.ui.cardResult.classList.add('active');
+    so.ui.cardBeans.classList.remove('big-card');
+    so.ui.cardBeans.classList.add('small-card');
+    so.bigCard = false;
+
+    var route = data.routes[0];
+    var ui = route.route_ui_data;
+
+    if (!so.bounds) {
+      so.bounds = new google.maps.LatLngBounds();
+    }
+
+    if (ui.markers) {
+      var glHidden = (options.markers && options.markers.display === false);
+
+      var backupBounds = new google.maps.LatLngBounds();
+      for (var i = 0; i < ui.markers.length; i++) {
+        if (!ui.markers[i].location) {
+          continue;
+        }
+
+        backupBounds.extend(new google.maps.LatLng(ui.markers[i].location.lat, ui.markers[i].location.lng));
+        backupBounds.extend(new google.maps.LatLng(ui.markers[i].location.lat - BOUNDS_EXT, ui.markers[i].location.lng));
+        backupBounds.extend(new google.maps.LatLng(ui.markers[i].location.lat + BOUNDS_EXT, ui.markers[i].location.lng));
+
+        var url = "";
+        if (ui.markers[i].type !== "UNIT") {
+          continue;
+        }
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === false) {
+          continue;
+        }
+        if (glHidden) {
+          if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].display === true) {
+          } else {
+            continue;
+          }
+        }
+
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].tooltip) {
+          ui.markers[i].note = options.markers[ui.markers[i].type.toLowerCase()].tooltip;
+        }
+
+        var markerText = ui.markers[i].text;
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].text) {
+          markerText = options.markers[ui.markers[i].type.toLowerCase()].text;
+        }
+
+        var markerUrl = null;
+        if (options.markers && options.markers[ui.markers[i].type.toLowerCase()] && options.markers[ui.markers[i].type.toLowerCase()].iconUrl) {
+          markerUrl = options.markers[ui.markers[i].type.toLowerCase()].iconUrl;
+        }
+
+        var markerEl = createMarker(so.iconConfig[ui.markers[i].type], markerUrl, markerText, 'position: absolute; ');
+        var marker = new so.USGSOverlay(markerEl, {lat: ui.markers[i].location.lat, lng: ui.markers[i].location.lng});
+        marker.setMap(so.map);
+
+        marker.addListener('click', () => {
+          so.currentIx = ix;
+          so.displayDataFor(ix);
+          so.map.panTo(so.markers[ix].getPosition());
+        });
+
+        so.bounds.extend(new google.maps.LatLng(ui.markers[i].location.lat, ui.markers[i].location.lng));
+        so.bounds.extend(new google.maps.LatLng(ui.markers[i].location.lat - BOUNDS_EXT, ui.markers[i].location.lng));
+        so.bounds.extend(new google.maps.LatLng(ui.markers[i].location.lat + BOUNDS_EXT, ui.markers[i].location.lng));
+        so.markers[ix] = marker;
+      }
+    }
+
+    if (ix === so.currentIx) {
+      so.displayDataFor(ix);
+    }
+
+    if(so.bounds.getCenter().lat() === 0) {
+      so.bounds = backupBounds;
+    }
+
+    //center the map to the geometric center of all markers
+    if (so.bounds) {
+      if (!options.disableReposition) {
+        if (options.tiles && options.tiles.display === false) {
+          so.map.fitBounds(so.bounds, {
+              top: so.ui.divWidth < 500 ? 0 : 0,
+              left: so.ui.divWidth < 500 ? 0 : 0,
+              right: so.ui.divWidth < 500 ? 0 : 0,
+              bottom: so.ui.divWidth < 500 ? 0 : 0
+          });
+        } else {
+          google.maps.event.addListenerOnce(so.map, "center_changed", function() {
+            so.map.fitBounds(so.bounds, {
+                top: so.ui.divWidth < 500 ? 0 : 0,
+                left: so.ui.divWidth < 500 ? 0 : (0 + Math.min(350, so.ui.divWidth / 3)),
+                right: so.ui.divWidth < 500 ? 0 : 0,
+                bottom: so.ui.divWidth < 500 ? 265 : 0
+              }
+            );
+          });
+          so.map.setCenter(so.bounds.getCenter());
+        }
+      }
+    }
+
+    if (options.success) {
+      options.success();
+    }
+  };
+  xhr.send();
+}

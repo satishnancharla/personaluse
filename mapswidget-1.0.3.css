@@ -1,0 +1,576 @@
+@charset "UTF-8";
+@import "https://fonts.googleapis.com/css?family=Poppins:100,200,400,500,600,700,800|Nunito:300,400,600,700,800";
+
+html, body {
+  overscroll-behavior-y: none;
+}
+
+.gm-style iframe + div { border:none!important; }
+
+.beans-card div, .beans-card span {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.65714286em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #484848;
+}
+
+.links-card div, .links-card span {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  line-height: 1.65714286em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #484848;
+}
+
+.floor-card div, .floor-card span {
+  font-family: "Poppins", sans-serif;
+  font-size: 0.7rem;
+  font-weight: 400;
+  line-height: 1.65714286em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #484848;
+}
+
+.mobile.beans-card {
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.beans-card .beans-row {
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  margin-top: 10px;
+}
+
+.beans-card .beans-col-4 {
+  -ms-flex: 0 0 33.333333%;
+  flex: 0 0 33.333333%;
+  max-width: 33.333333%;
+  position: relative;
+  width: 100%;
+  padding: 0;
+}
+
+.beans-card .result-card {
+  display: none;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 10px;
+}
+
+.beans-card .result-card.active {
+  display: block;
+}
+
+.beans-card .line1 {
+  max-width: calc(100vw - 130px);
+  font-size: 0.9rem;
+  color: #484848;
+  display: inline-block;
+  height: 22px;
+  overflow: hidden;
+}
+
+
+.beans-card .line2, .beans-card .line3, .beans-card .line4 {
+  color: #999;
+  max-width: calc(100vw - 130px);
+}
+
+/*
+.desktop.beans-card .line1 {
+  color: #eee;
+}
+
+.desktop.beans-card .line2, .desktop.beans-card .line3, .desktop.beans-card .line4 {
+  color: #fff;
+}
+
+.desktop.beans-card .facilities-card, .desktop.beans-card .facilities-card div, .desktop.beans-card .facilities-card span {
+  color: #fff;
+}
+
+.desktop.beans-card .directions-card, .desktop.beans-card .directions-card div, .desktop.beans-card .directions-card span {
+  color: #fff;
+} */
+
+.beans-card .distance {
+  color: #777;
+  max-width: calc(100vw - 130px);
+}
+
+.beans-card .tile {
+  width: calc(100% - 10px);
+  height: 95px;
+  background-color: #eee;
+  border-radius: 15px;
+  padding-top: 20px;
+  margin-left: 5px;
+  text-align: center;
+}
+
+.beans-card .tile .tileiconcontainer {
+  width: 60px;
+  height: 45px;
+  margin-left: calc(50% - 30px);
+  padding-top: 15px;
+}
+
+.beans-card .tile .tileicon {
+  width: 30px;
+  height: 30px;
+  margin: auto;
+}
+
+.beans-card .tile .tileiconcontainer.unknown {
+  background-color: #c8c8c8 !important;
+}
+
+.beans-card .tile .tiletext.unknown {
+  color: #a8a8a8 !important;
+}
+
+.beans-card .tile .tileicon.type-parking {
+  background-color: #eee;
+  mask-size: 30px 30px;
+  -webkit-mask-size: 30px 30px;
+  mask-image: url(https://www.beans.ai/m/assets/parking.svg);
+  -webkit-mask-image: url(https://www.beans.ai/m/assets/parking.svg);
+}
+
+.beans-card .tile .tileicon.type-entrance {
+  background-color: #eee;
+  mask-size: 30px 30px;
+  -webkit-mask-size: 30px 30px;
+  mask-image: url(https://www.beans.ai/m/assets/entrance.svg);
+  -webkit-mask-image: url(https://www.beans.ai/m/assets/entrance.svg);
+}
+
+.beans-card .tile .tileicon.type-stair {
+  background-color: #eee;
+  mask-size: 30px 30px;
+  -webkit-mask-size: 30px 30px;
+  mask-image: url(https://www.beans.ai/m/assets/stair.svg);
+  -webkit-mask-image: url(https://www.beans.ai/m/assets/stair.svg);
+}
+
+.beans-card .tile .tileicon.type-elevator {
+  background-color: #eee;
+  mask-size: 30px 30px;
+  -webkit-mask-size: 30px 30px;
+  mask-image: url(https://www.beans.ai/m/assets/elevator.svg);
+  -webkit-mask-image: url(https://www.beans.ai/m/assets/elevator.svg);
+}
+
+.beans-card .tile .tileicon.type-unit {
+  background-color: #eee;
+  mask-size: 30px 30px;
+  -webkit-mask-size: 30px 30px;
+  mask-image: url(https://www.beans.ai/m/assets/unit.svg);
+  -webkit-mask-image: url(https://www.beans.ai/m/assets/unit.svg);
+}
+
+.beans-card .tile .tiletext {
+  height: 20px;
+}
+
+.beans-card .navigate {
+  background-color: rgb(0, 124, 207);
+  mask-size: 50px 50px;
+  -webkit-mask-size: 50px 50px;
+  mask-image: url(https://www.beans.ai/m/assets/navigate.svg);
+  -webkit-mask-image: url(https://www.beans.ai/m/assets/navigate.svg);
+  width: 50px;
+  height: 50px;
+  float: right;
+}
+
+.beans-buttonbar {
+  position: absolute;
+  right: 10px;
+  width: 50px;
+  top: 10px;
+}
+
+.beans-buttonbar .satellite {
+  background: url(https://www.beans.ai/m/assets/satellite.svg) no-repeat 0px 0px;
+  background-size: 50px 50px;
+  width: 50px;
+  height: 50px;
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+.beans-buttonbar .mylocation {
+  background: url(https://www.beans.ai/m/assets/mylocation.svg) no-repeat 0px 0px;
+  background-size: 50px 50px;
+  width: 50px;
+  height: 50px;
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+.beans-buttonbar .shadow {
+  background: url(https://www.beans.ai/m/assets/shadow.svg) no-repeat 0px 0px;
+  background-size: 50px 50px;
+  width: 50px;
+  height: 50px;
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+.marker {
+}
+
+.marker.inactive {
+}
+
+.poimarker {
+  width: 42px;
+  height: 34px;
+  background-size: contain !important;
+}
+
+.marker.entrance {
+  background: url(https://www.beans.ai/m/assets/ientrance.svg) no-repeat 0px 0px;
+}
+
+.marker.parking {
+  background: url(https://www.beans.ai/m/assets/iparking.svg) no-repeat 0px 0px;
+}
+
+.marker.unit {
+  background: url(https://www.beans.ai/m/assets/iunit.svg) no-repeat 0px 0px;
+}
+
+.beans-card .text-notes {
+  margin-top: 15px;
+}
+.beans-card .facilities-card {
+  margin-top: 15px;
+}
+
+.beans-card .facilities-card .poi {
+  padding-left: 47px;
+  background-size: 42px 34px;
+  height: 34px;
+}
+
+.mapboxgl-popup-content {
+  width: 200px;
+}
+
+.popup {
+  width: 250px;
+}
+
+.popup-name {
+  padding: 5px;
+  width: 90px;
+  display: inline-block;
+}
+
+.popup-value {
+  padding: 5px;
+  width: 140px;
+  display: inline-block;
+}
+
+.selectbtn {
+  font-family: "Poppins", sans-serif;
+    border-radius: 5px 5px 5px 5px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    text-decoration: none;
+    outline: none;
+    margin-top: 10px;
+    padding: 12px 18px;
+    position: relative;
+    text-transform: uppercase;
+    text-align: center;
+    color: #ffffff;
+    transition: all 0.3s;
+    margin-bottom: 6px;
+    outline: none;
+    line-height: 14px;
+    cursor: pointer;
+
+    border: 1px solid #3079ED !important;
+    color: white !important;
+    background-color: #4D90FE !important;
+}
+
+.marker-image-preview-container {
+  position: relative;
+  width: 85px;
+  height: 85px;
+  border: 1px solid #ccc;
+  float: left;
+  margin-right: 10px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.marker-image-preview {
+  max-width: 85px !important;
+  max-height: 85px !important;
+}
+
+.poi-swimmingpool {
+  background: url(https://www.beans.ai/m/assets/iswimmingpool.svg) no-repeat 0px 0px;
+}
+
+.poi-office {
+  background: url(https://www.beans.ai/m/assets/ioffice.svg) no-repeat 0px 0px;
+}
+
+.poi-clubhouse {
+  background: url(https://www.beans.ai/m/assets/iclubhouse.svg) no-repeat 0px 0px;
+}
+
+.poi-laundry {
+  background: url(https://www.beans.ai/m/assets/ilaundry.svg) no-repeat 0px 0px;
+}
+
+.poi-mailroom {
+  background: url(https://www.beans.ai/m/assets/imailroom.svg) no-repeat 0px 0px;
+}
+
+.poi-packagelocker {
+  background: url(https://www.beans.ai/m/assets/ipackagelocker.svg) no-repeat 0px 0px;
+}
+
+.poi-bbq {
+  background: url(https://www.beans.ai/m/assets/ibbq.svg) no-repeat 0px 0px;
+}
+
+.poi-gym {
+  background: url(https://www.beans.ai/m/assets/igym.svg) no-repeat 0px 0px;
+}
+
+.poi-trash {
+  background: url(https://www.beans.ai/m/assets/itrash.svg) no-repeat 0px 0px;
+}
+
+.poi-tennis {
+  background: url(https://www.beans.ai/m/assets/itennis.svg) no-repeat 0px 0px;
+}
+
+.poi-carwash {
+  background: url(https://www.beans.ai/m/assets/icarwash.svg) no-repeat 0px 0px;
+}
+
+.poi-cyclestorage {
+  background: url(https://www.beans.ai/m/assets/icyclestorage.svg) no-repeat 0px 0px;
+}
+
+.marker-mylocation {
+  background-image: url('https://www.beans.ai/m/assets/bluecircle.png');
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+}
+
+.beans-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.desktop.beans-card {
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  padding: 20px;
+  margin: 0;
+  width: 350px;
+  max-width: 33%;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px rgb(0 0 0 / 10%);
+  height: calc(100% - 80px);
+  background-color: #fff;
+  z-index: 999;
+
+  overflow-y: scroll;
+}
+
+.desktop.beans-buttonbar {
+  top: 20px;
+}
+
+.links-flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.links-text {
+  text-decoration: underline;
+  padding-top: 3px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.mobile.links-card {
+  padding-top: 10px;
+  padding-bottom: 5px;
+  background-color: #fff;
+
+  position: absolute;
+  top: 15px;
+  width: 50%;
+  left: 10px;
+}
+
+.desktop.links-card {
+  background-color: #eee;
+  margin-top: 10px;
+  height: 30px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  border-radius: 8px;
+  margin-right: -10px;
+  margin-left: -10px;
+}
+
+.floor-card {
+  margin-top: 10px;
+  text-align: center;
+  max-height: 230px;
+  overflow-y: scroll;
+}
+
+.directions-row {
+  margin-left: 0px;
+  margin-top: 10px;
+}
+
+.directions-img-container {
+  display: inline-block;
+  width: 30px;
+  vertical-align: top;
+}
+
+.directions-text {
+  display: inline-block;
+  width: calc(100% - 30px);
+}
+
+.directions-subtext {
+  margin-left: 30px;
+  font-size: 11px !important;
+  color: #777 !important;
+}
+
+.clickdata-card {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid #eee;
+}
+
+.clickdata-container {
+  border-bottom: 1px solid #eee;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.clickdata-key {
+  width: 50%;
+  display: inline-block;
+}
+
+.clickdata-value {
+  width: 50%;
+  display: inline-block;
+}
+
+.floor-picker {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+
+  width: 30px;
+  height: 23px;
+  margin: 0;
+  text-align: center;
+  display: inline-block;
+  padding-top: 2px;
+  cursor: pointer;
+  border: 1px solid #eee;
+  background-color: #fff;
+}
+
+.floor-picker:hover {
+  background-color: #027BCF;
+  color: #fff;
+}
+
+.desktop.swipe-card {
+  display: none;
+}
+
+.mobile.swipe-card {
+  height: 5px;
+  border-radius: 2.5px;
+  width: 50%;
+  background-color: #ccc;
+  position: absolute;
+  top: 10px;
+  left: 25%;
+}
+
+.mobile.beans-card {
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+  padding-top: 20px;
+}
+
+.mobile.beans-card.big-card {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  top: 120px;
+  height: calc(100% - 120px);
+  background-color: #fff;
+  z-index: 999;
+  overflow-y: scroll;
+}
+
+.mobile.beans-card.small-card {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  top: calc(100% - 260px);
+  height: 260px;
+  background-color: #fff;
+  z-index: 999;
+}
+
+.mobile.beans-card.active {
+  top: 10px;
+  height: calc(100% - 10px);
+}
+
+
+.esri-daylight {
+  position: fixed !important;
+  right: 20px !important;
+  bottom: 20px !important;
+  margin-left: 0px !important;
+  max-width: calc(100% - 40px);
+}
